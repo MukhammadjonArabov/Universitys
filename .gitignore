@@ -1,0 +1,44 @@
+# Python cache fayllari
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# Django migrations
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Django settings lokal fayllari
+*.sqlite3
+*.db
+db.sqlite3
+
+# Media va static fayllar (agar loyihada bor bo‘lsa)
+media/
+staticfiles/
+static/
+
+# IDE va editor fayllari
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS fayllari
+.DS_Store
+Thumbs.db
+
+# Logs va temporary fayllar
+*.log
+*.pot
+*.pyc
+*.swp
+*.swo
+
+# Secrets fayllari
+.env
