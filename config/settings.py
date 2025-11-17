@@ -40,13 +40,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'show',
+    #installer
+
+    #app
+    'university',
+
 ]
 
 MIDDLEWARE = [
@@ -136,17 +141,41 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = env("STATIC_URL", default="/static/")
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATIC FILES
+STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    BASE_DIR / "static",
 ]
 
-MEDIA_URL = env("MEDIA_URL", default="/media/")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Universitet Admin",
+    "site_header": "Universitet Boshqaruvi",
+    "site_brand": "Universitet",
+    "site_logo": "logo/university_logo.png",
+    "welcome_sign": "Admin panelga xush kelibsiz",
+    "copyright": "Universitet © 2025",
+    "search_model": "university.employee",  # qidiruv uchun model
+    "topmenu_links": [
+        {"name": "Saytga o‘tish", "url": "/", "new_window": True},
+        {"model": "auth.user"},
+    ],
+    "icons": {
+        "university.employee": "fas fa-user",
+        "university.university": "fas fa-university",
+        "university.faculty": "fas fa-book",
+    },
+    "related_modal_active": True,
+    "university_ui_builder": True,
+}

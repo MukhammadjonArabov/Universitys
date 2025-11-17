@@ -108,3 +108,6 @@ class DirectionSubject(BaseModel):
 
     def __str__(self):
         return f"{self.direction} — {self.subject}"
+from django.db import models
+
+# Create your models here.
