@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universitet Bosh Sahifa</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="site-title">Universitet</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Bosh sahifa</a></li>
+                    <li><a href="#">Universitetlar</a></li>
+                    <li><a href="#">Fakultetlar</a></li>
+                    <li><a href="#">Yo'nalishlar</a></li>
+                    <li><a href="#">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h2>Xush kelibsiz!</h2>
+                <p>Bu yerda universitetlar, fakultetlar va yo'nalishlar haqida to‘liq ma'lumot olishingiz mumkin.</p>
+                <a href="#" class="btn">Batafsil</a>
+            </div>
+            <div class="hero-image">
+                <img src="{% static 'images/university_building.jpg' %}" alt="Universitet">
+            </div>
+        </div>
+    </section>
+
+    <section class="features container">
+        <div class="feature">
+            <h3>Universitetlar</h3>
+            <p>O‘zbekiston bo‘ylab barcha universitetlar ro‘yxati.</p>
+        </div>
+        <div class="feature">
+            <h3>Fakultetlar</h3>
+            <p>Har bir universitetdagi fakultetlar haqida ma'lumot.</p>
+        </div>
+        <div class="feature">
+            <h3>Yo'nalishlar</h3>
+            <p>Yo‘nalishlar va ular bo‘yicha fanlar ro‘yxati.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Universitet. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import (
     Region, AcademicDegree, PositionDegree, Employee,
     University, Faculty, Kafedra, Direction,
@@ -6,20 +7,25 @@ from .models import (
 )
 
 
-# -----------------------------
-# Employee admin
-# -----------------------------
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'degree', 'position')
+    list_display = ('first_name', 'last_name', 'degree', 'position', 'image_tag')
     list_filter = ('degree', 'position')
     search_fields = ('first_name', 'last_name')
     readonly_fields = ('created_date', 'updated_date')
+    readonly_fields = ('image_tag',)
+
+    def image_tag(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="60" height="60" style="object-fit: cover; border-radius: 5px;" />',
+                obj.image.url
+            )
+        return "No Image"
+
+    image_tag.short_description = 'Rasm'
 
 
-# -----------------------------
-# Region, AcademicDegree, PositionDegree
-# -----------------------------
 @admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -35,9 +41,6 @@ class PositionDegreeAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-# -----------------------------
-# University admin
-# -----------------------------
 @admin.register(University)
 class UniversityAdmin(admin.ModelAdmin):
     list_display = ('name', 'region', 'employee', 'phone_number', 'email')
@@ -46,9 +49,6 @@ class UniversityAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date', 'updated_date')
 
 
-# -----------------------------
-# Faculty admin
-# -----------------------------
 @admin.register(Faculty)
 class FacultyAdmin(admin.ModelAdmin):
     list_display = ('name', 'university', 'employee')
@@ -57,9 +57,6 @@ class FacultyAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date', 'updated_date')
 
 
-# -----------------------------
-# Kafedra admin
-# -----------------------------
 @admin.register(Kafedra)
 class KafedraAdmin(admin.ModelAdmin):
     list_display = ('name', 'employee')
@@ -67,9 +64,6 @@ class KafedraAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date', 'updated_date')
 
 
-# -----------------------------
-# Direction admin
-# -----------------------------
 @admin.register(Direction)
 class DirectionAdmin(admin.ModelAdmin):
     list_display = ('name', 'kafedra')
@@ -78,9 +72,6 @@ class DirectionAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date', 'updated_date')
 
 
-# -----------------------------
-# Subject admin
-# -----------------------------
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -88,9 +79,6 @@ class SubjectAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date', 'updated_date')
 
 
-# -----------------------------
-# EmployeeSubject admin
-# -----------------------------
 @admin.register(EmployeeSubject)
 class EmployeeSubjectAdmin(admin.ModelAdmin):
     list_display = ('employee', 'subject')
@@ -99,9 +87,6 @@ class EmployeeSubjectAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date', 'updated_date')
 
 
-# -----------------------------
-# DirectionSubject admin
-# -----------------------------
 @admin.register(DirectionSubject)
 class DirectionSubjectAdmin(admin.ModelAdmin):
     list_display = ('direction', 'subject')

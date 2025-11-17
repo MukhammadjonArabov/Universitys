@@ -69,7 +69,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -161,12 +161,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
     "site_title": "Universitet Admin",
-    "site_header": "Universitet Boshqaruvi",
-    "site_brand": "Universitet",
-    "site_logo": "logo/university_logo.png",
+    "site_header": "Universitetlar",
+    "site_brand": "Universitetlar",
+    "site_logo": "logo/logo_univesity.png",
     "welcome_sign": "Admin panelga xush kelibsiz",
     "copyright": "Universitet © 2025",
-    "search_model": "university.employee",  # qidiruv uchun model
+    "search_model": "university.employee",
     "topmenu_links": [
         {"name": "Saytga o‘tish", "url": "/", "new_window": True},
         {"model": "auth.user"},
