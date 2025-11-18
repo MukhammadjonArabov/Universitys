@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bosh sahifa - Universitet{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-content">
+        <div class="hero-text">
+            <h2>Xush kelibsiz!</h2>
+            <p>Bu yerda O‘zbekiston universitetlari, fakultetlari va yo‘nalishlari haqida to‘liq ma'lumot olishingiz mumkin.</p>
+            <a href="{% url 'universities' %}" class="btn">Batafsil ko‘rish</a>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/university_building.jpg' %}" alt="Universitet binosi">
+        </div>
+    </div>
+</section>
+
+<section class="features container">
+    <div class="feature">
+        <i class="fas fa-university"></i>
+        <h3>Universitetlar</h3>
+        <p>O‘zbekiston bo‘ylab barcha universitetlar ro‘yxati.</p>
+    </div>
+    <div class="feature">
+        <i class="fas fa-building"></i>
+        <h3>Fakultetlar</h3>
+        <p>Har bir universitetdagi fakultetlar haqida ma'lumot.</p>
+    </div>
+    <div class="feature">
+        <i class="fas fa-book-open"></i>
+        <h3>Yo‘nalishlar</h3>
+        <p>Barcha yo‘nalishlar va ularga oid fanlar ro‘yxati.</p>
+    </div>
+</section>
+{% endblock %}

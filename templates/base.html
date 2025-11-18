@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UzUniversitets{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="header">
+        <div class="container navbar">
+            <a href="/" class="logo">
+                <i class="fas fa-graduation-cap"></i> UzUniversitets
+            </a>
+            <nav class="nav-links">
+                <a href="/" class="{% if request.path == '/' %}active{% endif %}">Bosh sahifa</a>
+                <a href="/universitetlar/">Universitetlar</a>
+                <a href="/fakultetlar/">Fakultetlar</a>
+                <a href="/yonalishlar/">Yoʻnalishlar</a>
+                <a href="/kontakt/">Kontakt</a>
+            </nav>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- KATTA RASIM + ANIMATSIYALI MATN -->
+    <section class="hero-banner">
+        <img src="{% static 'logo/students_image_menu.jpg' %}" alt="Talabalar" class="hero-banner-img">
+
+        <!-- Qorong‘i qoplama -->
+        <div class="hero-overlay"></div>
+
+        <!-- Animatsiyali matn -->
+        <div class="hero-text">
+            <h1 class="animate-title">Xush kelibsiz!</h1>
+            <p class="animate-subtitle">O‘zbekiston universitetlari haqida to‘liq ma’lumot</p>
+        </div>
+    </section>
+
+    <!-- Asosiy kontent -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 UzUniversitets. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <!-- Hamburger menu JS -->
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
