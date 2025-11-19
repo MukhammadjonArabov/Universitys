@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #installer
     'rest_framework',
+    'django_filters',
 
     #app
     'university',
