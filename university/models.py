@@ -59,7 +59,7 @@ class University(BaseModel):
     name = models.CharField(max_length=255)
     postal_address = models.TextField()
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True)
-    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    employee = models.ManyToManyField(Employee, blank=True)
     phone_number = models.CharField(max_length=20)
     email = models.EmailField()
     website = models.CharField(max_length=255)

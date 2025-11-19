@@ -43,7 +43,6 @@ class PositionDegreeAdmin(admin.ModelAdmin):
 
 @admin.register(University)
 class UniversityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'region', 'employee', 'phone_number', 'email')
     list_filter = ('region',)
     search_fields = ('name', 'email', 'phone_number')
     readonly_fields = ('created_date', 'updated_date')
