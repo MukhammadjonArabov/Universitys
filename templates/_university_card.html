@@ -1,0 +1,23 @@
+{% load static %}
+<article class="card university-card hover-lift">
+    <div class="card-media">
+        {% if university.image %}
+            <img src="{{ university.image.url }}" alt="{{ university.name }}">
+        {% else %}
+            <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ university.name }}">
+        {% endif %}
+        {% if university.region %}
+            <span class="pill"><i class="fas fa-location-dot"></i> {{ university.region.name }}</span>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <h3>{{ university.name }}</h3>
+        <p class="muted"><i class="fas fa-phone"></i> {{ university.phone_number }}</p>
+        <p class="muted"><i class="fas fa-envelope"></i> {{ university.email }}</p>
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-ghost" href="tel:{{ university.phone_number }}"><i class="fas fa-phone"></i> Bog‘lanish</a>
+        <a class="btn btn-primary" href="{% url 'university:university_detail' university.id %}">Ko‘rish</a>
+    </div>
+</article>
+

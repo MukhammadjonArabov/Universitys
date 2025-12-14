@@ -14,12 +14,8 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-from pathlib import Path
 import environ
 import os
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Initialize environment
 env = environ.Env(DEBUG=(bool, False))

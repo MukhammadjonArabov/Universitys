@@ -8,21 +8,22 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
 
     <!-- NAVBAR -->
     <header class="header">
         <div class="container navbar">
-            <a href="/" class="logo">
+            <a href="{% url 'university:home' %}" class="logo">
                 <i class="fas fa-graduation-cap"></i> UzUniversitet
             </a>
             <nav class="nav-links">
-                <a href="/" class="{% if request.path == '/' %}active{% endif %}">Bosh sahifa</a>
-                <a href="/universitetlar/">Universitetlar</a>
-                <a href="/fakultetlar/">Fakultetlar</a>
-                <a href="/yonalishlar/">Yoʻnalishlar</a>
-                <a href="/kontakt/">Kontakt</a>
+                <a href="{% url 'university:home' %}" class="{% if request.path == '/' %}active{% endif %}">Bosh sahifa</a>
+                <a href="{% url 'university:universities' %}" class="{% if '/universitetlar' in request.path %}active{% endif %}">Universitetlar</a>
+                <a href="#faculties" class="disabled-link">Fakultetlar</a>
+                <a href="#directions" class="disabled-link">Yoʻnalishlar</a>
+                <a href="#contact" class="disabled-link">Kontakt</a>
             </nav>
             <div class="hamburger">
                 <span></span>
@@ -69,5 +70,6 @@
             navLinks.classList.toggle('active');
         });
     </script>
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>
