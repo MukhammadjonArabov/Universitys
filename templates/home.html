@@ -16,27 +16,25 @@
 <section class="hero">
     <div class="container hero-content">
         <div class="hero-text">
-            <p class="eyebrow"><i class="fas fa-location-dot"></i> O‘zbekiston bo‘ylab</p>
-            <h2>Universitetlarni kashf qiling</h2>
-            <p class="lead">
-                Barcha universitetlar, fakultetlar va mutaxassisliklar bo‘yicha yangilangan ma’lumotlar.
-            </p>
+            <h2 class="typing-text">
+                <span id="typing-text-1"></span><span class="typing-cursor">|</span>
+            </h2>
             <div class="hero-actions">
                 <a href="{% url 'university:universities' %}" class="btn btn-primary">Batafsil ko‘rish</a>
                 <a href="#map" class="btn btn-ghost">Xaritada ko‘rish</a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-value">{{ universities_geo_count }}</span>
-                    <span class="stat-label">Xaritadagi universitetlar</span>
+                    <span class="stat-value">{{ universities_count }}</span>
+                    <span class="stat-label">Universitetlar</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value">24+</span>
-                    <span class="stat-label">Viloyatlar bo‘yicha</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">100+</span>
+                    <span class="stat-value">{{ faculties_count }}</span>
                     <span class="stat-label">Fakultetlar</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">{{ directions_count }}</span>
+                    <span class="stat-label">Yo'nalishlar</span>
                 </div>
             </div>
         </div>
@@ -90,6 +88,44 @@
     crossorigin=""
 ></script>
 <script>
+    // Typing animation - continuously types and deletes
+    (function() {
+        const text1 = "Xush kelibsiz! Universitetlarni kashf qiling";
+        const typingElement = document.getElementById("typing-text-1");
+        if (typingElement) {
+            let index = 0;
+            let isDeleting = false;
+            
+            function typeText() {
+                if (!isDeleting && index < text1.length) {
+                    // Typing forward
+                    typingElement.textContent = text1.substring(0, index + 1);
+                    index++;
+                    setTimeout(typeText, 80);
+                } else if (isDeleting && index > 0) {
+                    // Deleting backward
+                    typingElement.textContent = text1.substring(0, index - 1);
+                    index--;
+                    setTimeout(typeText, 40);
+                } else if (!isDeleting && index === text1.length) {
+                    // Wait at the end before deleting
+                    setTimeout(() => {
+                        isDeleting = true;
+                        typeText();
+                    }, 2000);
+                } else if (isDeleting && index === 0) {
+                    // Restart typing
+                    isDeleting = false;
+                    setTimeout(typeText, 500);
+                }
+            }
+            
+            // Start typing after a short delay
+            setTimeout(typeText, 300);
+        }
+    })();
+
+    // Map initialization
     const mapContainer = document.getElementById("uzb-map");
     if (mapContainer) {
         const data = JSON.parse(document.getElementById("mapData").textContent);
@@ -116,7 +152,7 @@
                 Region: ${item.region || "—"}<br>
                 Tel: ${item.phone_number || "—"}<br>
                 Email: ${item.email || "—"}<br>
-                <a class="popup-link" href="${item.detail_url}">Universitet sahifasiga o‘tish</a>
+                <a class="popup-link" href="${item.detail_url}">Universitet sahifasiga o'tish</a>
             `;
             marker.bindPopup(popupHtml);
 

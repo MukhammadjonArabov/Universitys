@@ -9,6 +9,7 @@ from .models import (
     Faculty,
     Employee,
     EmployeeSubject,
+    Direction,
 )
 
 
@@ -36,12 +37,20 @@ def home_view(request):
             }
         )
 
+    # Get counts from database
+    universities_count = University.objects.count()
+    faculties_count = Faculty.objects.count()
+    directions_count = Direction.objects.count()
+
     return render(
         request,
         "home.html",
         {
             "map_data": map_data,
             "universities_geo_count": len(map_data),
+            "universities_count": universities_count,
+            "faculties_count": faculties_count,
+            "directions_count": directions_count,
         },
     )
 
