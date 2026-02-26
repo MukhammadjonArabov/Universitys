@@ -123,6 +123,7 @@ class Subject(BaseModel):
 
     def __str__(self):
         return self.name
+    
 
 class EmployeeSubject(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
