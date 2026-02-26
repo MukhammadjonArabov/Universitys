@@ -92,6 +92,7 @@ class Faculty(BaseModel):
 
 class Kafedra(BaseModel):
     name = models.CharField(max_length=255)
+    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name="kafedras", null=True, blank=True)
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
 
     class Meta:

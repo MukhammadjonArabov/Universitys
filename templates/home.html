@@ -4,12 +4,7 @@
 {% block title %}Bosh sahifa - Universitet{% endblock %}
 
 {% block extra_head %}
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-o9N1j7kGStG3HnV0rU1U6AE9WZfF0uN5x4Z3Ck0i/0w="
-    crossorigin=""
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
 {% endblock %}
 
 {% block content %}
@@ -23,23 +18,25 @@
                 <a href="{% url 'university:universities' %}" class="btn btn-primary">Batafsil ko‘rish</a>
                 <a href="#map" class="btn btn-ghost">Xaritada ko‘rish</a>
             </div>
+        </div>
+        <div class="hero-image-wrapper">
+            <div class="hero-image card glass">
+                <img src="{% static 'logo/students_image_menu.jpg' %}" alt="Universitet binosi">
+            </div>
             <div class="hero-stats">
-                <div class="stat">
+                <div class="stat card glass">
                     <span class="stat-value">{{ universities_count }}</span>
                     <span class="stat-label">Universitetlar</span>
                 </div>
-                <div class="stat">
+                <div class="stat card glass">
                     <span class="stat-value">{{ faculties_count }}</span>
                     <span class="stat-label">Fakultetlar</span>
                 </div>
-                <div class="stat">
+                <div class="stat card glass">
                     <span class="stat-value">{{ directions_count }}</span>
                     <span class="stat-label">Yo'nalishlar</span>
                 </div>
             </div>
-        </div>
-        <div class="hero-image card glass">
-            <img src="{% static 'logo/students_image_menu.jpg' %}" alt="Universitet binosi">
         </div>
     </div>
 </section>
@@ -74,7 +71,8 @@
             <h3>Universitetlar joylashuvi</h3>
             <p class="muted">Geo ma’lumotga ega universitetlarni interaktiv ko‘rinishda.</p>
         </div>
-        <a class="btn btn-ghost" href="{% url 'university:universities' %}"><i class="fas fa-list"></i> Ro‘yxatga o‘tish</a>
+        <a class="btn btn-ghost" href="{% url 'university:universities' %}"><i class="fas fa-list"></i> Ro‘yxatga
+            o‘tish</a>
     </div>
     <div id="uzb-map"></div>
 </section>
@@ -82,20 +80,16 @@
 
 {% block extra_scripts %}
 {{ map_data|json_script:"mapData" }}
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-o9N1j7kGStG3HnV0rU1U6AE9WZfF0uN5x4Z3Ck0i/0w="
-    crossorigin=""
-></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script>
     // Typing animation - continuously types and deletes
-    (function() {
+    (function () {
         const text1 = "Xush kelibsiz! Universitetlarni kashf qiling";
         const typingElement = document.getElementById("typing-text-1");
         if (typingElement) {
             let index = 0;
             let isDeleting = false;
-            
+
             function typeText() {
                 if (!isDeleting && index < text1.length) {
                     // Typing forward
@@ -119,49 +113,72 @@
                     setTimeout(typeText, 500);
                 }
             }
-            
+
             // Start typing after a short delay
             setTimeout(typeText, 300);
         }
     })();
 
     // Map initialization
-    const mapContainer = document.getElementById("uzb-map");
-    if (mapContainer) {
-        const data = JSON.parse(document.getElementById("mapData").textContent);
-        const map = L.map("uzb-map").setView([41.2995, 69.2401], 6);
+    document.addEventListener("DOMContentLoaded", () => {
+        const mapContainer = document.getElementById("uzb-map");
+        if (mapContainer && typeof L !== 'undefined') {
+            const data = JSON.parse(document.getElementById("mapData").textContent);
+            const map = L.map("uzb-map").setView([41.2995, 69.2401], 6);
 
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
-            attribution: "&copy; OpenStreetMap contributors",
-        }).addTo(map);
+            const lightTiles = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 19,
+                attribution: "&copy; OpenStreetMap contributors",
+            });
 
-        const markerGroup = L.layerGroup().addTo(map);
+            const darkTiles = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+                maxZoom: 19,
+                attribution: "&copy; OpenStreetMap &copy; CARTO",
+            });
 
-        const icon = L.icon({
-            iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [0, -32],
-        });
+            // Set initial tile layer based on theme
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            if (currentTheme === 'dark') {
+                darkTiles.addTo(map);
+            } else {
+                lightTiles.addTo(map);
+            }
 
-        data.forEach((item, idx) => {
-            const marker = L.marker([item.lat, item.lng], { icon }).addTo(markerGroup);
-            const popupHtml = `
-                <strong>${item.name}</strong><br>
-                Region: ${item.region || "—"}<br>
-                Tel: ${item.phone_number || "—"}<br>
-                Email: ${item.email || "—"}<br>
-                <a class="popup-link" href="${item.detail_url}">Universitet sahifasiga o'tish</a>
-            `;
-            marker.bindPopup(popupHtml);
+            // Listen for theme changes to switch tiles
+            const toggleBtn = document.getElementById('theme-toggle');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    setTimeout(() => {
+                        const newTheme = document.documentElement.getAttribute('data-theme');
+                        if (newTheme === 'dark') {
+                            map.removeLayer(lightTiles);
+                            darkTiles.addTo(map);
+                        } else {
+                            map.removeLayer(darkTiles);
+                            lightTiles.addTo(map);
+                        }
+                    }, 50);
+                });
+            }
 
-            // simple marker animation
-            setTimeout(() => {
-                marker.setLatLng([item.lat + 0.0005, item.lng + 0.0005]);
-                marker.setLatLng([item.lat, item.lng]);
-            }, idx * 120);
-        });
-    }
+            const markerGroup = L.layerGroup().addTo(map);
+
+            data.forEach((item, idx) => {
+                if (!item.lat || !item.lng) return;
+                const marker = L.marker([item.lat, item.lng]).addTo(markerGroup);
+                const popupHtml = `
+                    <div class="map-popup">
+                        <strong style="color: #000;">${item.name}</strong><br>
+                        <small style="color: #666;">${item.region || "—"}</small><br>
+                        <a class="popup-link" href="${item.detail_url}" style="color: var(--primary); font-weight: bold;">Batafsil</a>
+                    </div>
+                `;
+                marker.bindPopup(popupHtml);
+            });
+
+            // Fix map size issues
+            setTimeout(() => { map.invalidateSize(); }, 500);
+        }
+    });
 </script>
 {% endblock %}

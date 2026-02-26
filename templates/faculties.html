@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Fakultetlar - O‘quv dargohlari{% endblock %}
+
+{% block content %}
+<section class="container page-header">
+    <div>
+        <p class="eyebrow"><i class="fas fa-layer-group"></i> Ro‘yxat</p>
+        <h1>Barcha Fakultetlar</h1>
+        <p class="lead">O‘zbekiston universitetlaridagi barcha fakultetlar va yo‘nalishlar.</p>
+    </div>
+
+    <form class="search-form" method="GET" action="{% url 'university:faculties' %}">
+        <div class="input-icon">
+            <i class="fas fa-search"></i>
+            <input type="text" name="search" placeholder="Fakultet qidirish..." value="{{ search_query }}">
+        </div>
+        {% if selected_university_id %}
+        <input type="hidden" name="university" value="{{ selected_university_id }}">
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Qidirish</button>
+    </form>
+</section>
+
+<div class="container layout-grid">
+    <!-- Sidebar: University Filter -->
+    <aside class="sidebar card glass">
+        <div class="sidebar-header">
+            <h3>Universitetlar</h3>
+            {% if selected_university_id %}
+            <a href="{% url 'university:faculties' %}{% if search_query %}?search={{ search_query }}{% endif %}"
+                class="btn-icon" title="Filterni tozalash">
+                <i class="fas fa-times"></i>
+            </a>
+            {% endif %}
+        </div>
+        <ul class="filter-list">
+            <li>
+                <a href="{% url 'university:faculties' %}{% if search_query %}?search={{ search_query }}{% endif %}"
+                    class="{% if not selected_university_id %}active{% endif %}">
+                    Barchasi
+                </a>
+            </li>
+            {% for uni in universities %}
+            <li>
+                <a href="{% url 'university:faculties' %}?university={{ uni.id }}{% if search_query %}&search={{ search_query }}{% endif %}"
+                    class="{% if selected_university_id == uni.id|stringformat:'s' %}active{% endif %}">
+                    {{ uni.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </aside>
+
+    <!-- Main: Faculties Grid -->
+    <main class="content-area">
+        {% if faculties %}
+        <div class="cards-grid">
+            {% for faculty in faculties %}
+            <article class="card hover-lift university-card">
+                <a href="{% url 'university:faculty_detail' faculty.id %}" class="card-link-wrapper">
+                    <div class="card-media">
+                        {% if faculty.image %}
+                        <img src="{{ faculty.image.url }}" alt="{{ faculty.name }}">
+                        {% else %}
+                        <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ faculty.name }}">
+                        {% endif %}
+                        <span class="pill"><i class="fas fa-university"></i> {{ faculty.university.name }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>{{ faculty.name }}</h3>
+                        <p class="muted line-clamp">{{ faculty.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer">
+                        {% if faculty.employee %}
+                        <span class="muted small"><i class="fas fa-user-tie"></i> Dekan: {{ faculty.employee }}</span>
+                        {% endif %}
+                        <span class="btn-text">Batafsil <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav class="pagination section">
+            {% if page_obj.has_previous %}
+            <a class="page-link"
+                href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_university_id %}&university={{ selected_university_id }}{% endif %}">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            {% else %}
+            <span class="page-link disabled"><i class="fas fa-chevron-left"></i></span>
+            {% endif %}
+
+            <span class="page-status">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+            <a class="page-link"
+                href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_university_id %}&university={{ selected_university_id }}{% endif %}">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            {% else %}
+            <span class="page-link disabled"><i class="fas fa-chevron-right"></i></span>
+            {% endif %}
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <div class="empty-state card glass">
+            <i class="fas fa-search"></i>
+            <p class="muted">Hech qanday fakultet topilmadi. Qidiruv so‘zini o‘zgartirib ko‘ring.</p>
+        </div>
+        {% endif %}
+    </main>
+</div>
+
+<style>
+    .card-link-wrapper {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .line-clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .btn-text {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .small {
+        font-size: 0.85rem;
+    }
+</style>
+{% endblock %}

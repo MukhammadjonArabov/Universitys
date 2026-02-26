@@ -58,7 +58,8 @@ class FacultyAdmin(admin.ModelAdmin):
 
 @admin.register(Kafedra)
 class KafedraAdmin(admin.ModelAdmin):
-    list_display = ('name', 'employee')
+    list_display = ('name', 'faculty', 'employee')
+    list_filter = ('faculty',)
     search_fields = ('name',)
     readonly_fields = ('created_date', 'updated_date')
 

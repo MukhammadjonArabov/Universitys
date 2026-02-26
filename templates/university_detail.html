@@ -4,14 +4,15 @@
 {% block title %}{{ university.name }} - Tafsilot{% endblock %}
 
 {% block extra_head %}
-{% if map_point %}
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-o9N1j7kGStG3HnV0rU1U6AE9WZfF0uN5x4Z3Ck0i/0w="
-    crossorigin=""
-/>
-{% endif %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+<style>
+    #detail-map {
+        width: 100%;
+        height: 450px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -19,9 +20,9 @@
     <div class="detail-hero card glass">
         <div class="detail-hero-media">
             {% if university.image %}
-                <img src="{{ university.image.url }}" alt="{{ university.name }}">
+            <img src="{{ university.image.url }}" alt="{{ university.name }}">
             {% else %}
-                <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ university.name }}">
+            <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ university.name }}">
             {% endif %}
         </div>
         <div class="detail-hero-body">
@@ -29,7 +30,8 @@
             <h1>{{ university.name }}</h1>
             <div class="detail-grid">
                 <div><i class="fas fa-location-dot"></i> {{ university.region.name }}</div>
-                <div><i class="fas fa-globe"></i> <a href="{{ university.website }}" target="_blank" rel="noopener">{{ university.website }}</a></div>
+                <div><i class="fas fa-globe"></i> <a href="{{ university.website }}" target="_blank" rel="noopener">{{
+                        university.website }}</a></div>
                 <div><i class="fas fa-envelope"></i> {{ university.email }}</div>
                 <div><i class="fas fa-phone"></i> {{ university.phone_number }}</div>
                 <div><i class="fas fa-map-pin"></i> {{ university.postal_address }}</div>
@@ -58,31 +60,31 @@
         </div>
     </div>
     {% if faculties %}
-        <div class="cards-grid">
-            {% for faculty in faculties %}
-            <article class="card hover-lift">
-                <div class="card-media">
-                    {% if faculty.image %}
-                        <img src="{{ faculty.image.url }}" alt="{{ faculty.name }}">
-                    {% else %}
-                        <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ faculty.name }}">
-                    {% endif %}
-                </div>
-                <div class="card-body">
-                    <h3>{{ faculty.name }}</h3>
-                    <p class="muted">{{ faculty.description }}</p>
-                    {% if faculty.employee %}
-                        <div class="pill"><i class="fas fa-user-tie"></i> Dekan: {{ faculty.employee }}</div>
-                    {% endif %}
-                </div>
-            </article>
-            {% endfor %}
-        </div>
+    <div class="cards-grid">
+        {% for faculty in faculties %}
+        <article class="card hover-lift">
+            <div class="card-media">
+                {% if faculty.image %}
+                <img src="{{ faculty.image.url }}" alt="{{ faculty.name }}">
+                {% else %}
+                <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ faculty.name }}">
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h3>{{ faculty.name }}</h3>
+                <p class="muted">{{ faculty.description }}</p>
+                {% if faculty.employee %}
+                <div class="pill"><i class="fas fa-user-tie"></i> Dekan: {{ faculty.employee }}</div>
+                {% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
     {% else %}
-        <div class="empty-state card glass">
-            <i class="fas fa-circle-exclamation"></i>
-            <p class="muted">Fakultetlar mavjud emas.</p>
-        </div>
+    <div class="empty-state card glass">
+        <i class="fas fa-circle-exclamation"></i>
+        <p class="muted">Fakultetlar mavjud emas.</p>
+    </div>
     {% endif %}
 </section>
 
@@ -94,62 +96,106 @@
         </div>
     </div>
     {% if employees %}
-        <div class="cards-grid employees-grid">
-            {% for employee in employees %}
-            <article class="card hover-lift employee-card">
-                <div class="employee-avatar">
-                    {% if employee.image %}
-                        <img src="{{ employee.image.url }}" alt="{{ employee }}">
-                    {% else %}
-                        <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ employee }}">
-                    {% endif %}
+    <div class="cards-grid employees-grid">
+        {% for employee in employees %}
+        <article class="card hover-lift employee-card">
+            <div class="employee-avatar">
+                {% if employee.image %}
+                <img src="{{ employee.image.url }}" alt="{{ employee }}">
+                {% else %}
+                <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ employee }}">
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h3>{{ employee.first_name }} {{ employee.last_name }}</h3>
+                <p class="muted">{{ employee.position }}{% if employee.degree %} · {{ employee.degree }}{% endif %}</p>
+                {% if employee.employeesubject_set.all %}
+                <div class="tags">
+                    {% for es in employee.employeesubject_set.all %}
+                    <span class="pill pill-light">{{ es.subject.name }}</span>
+                    {% endfor %}
                 </div>
-                <div class="card-body">
-                    <h3>{{ employee.first_name }} {{ employee.last_name }}</h3>
-                    <p class="muted">{{ employee.position }}{% if employee.degree %} · {{ employee.degree }}{% endif %}</p>
-                    {% if employee.employeesubject_set.all %}
-                        <div class="tags">
-                            {% for es in employee.employeesubject_set.all %}
-                                <span class="pill pill-light">{{ es.subject.name }}</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
-            </article>
-            {% endfor %}
-        </div>
+                {% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
     {% else %}
-        <div class="empty-state card glass">
-            <i class="fas fa-circle-exclamation"></i>
-            <p class="muted">Xodimlar qo‘shilmagan.</p>
-        </div>
+    <div class="empty-state card glass">
+        <i class="fas fa-circle-exclamation"></i>
+        <p class="muted">Xodimlar qo‘shilmagan.</p>
+    </div>
     {% endif %}
 </section>
 
 <section class="container section">
     <a class="btn btn-ghost" href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Orqaga</a>
-    <a class="btn btn-primary" href="{% url 'university:universities' %}"><i class="fas fa-list"></i> Universitetlar ro‘yxati</a>
+    <a class="btn btn-primary" href="{% url 'university:universities' %}"><i class="fas fa-list"></i> Universitetlar
+        ro‘yxati</a>
 </section>
 {% endblock %}
 
 {% block extra_scripts %}
 {% if map_point %}
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-o9N1j7kGStG3HnV0rU1U6AE9WZfF0uN5x4Z3Ck0i/0w="
-    crossorigin=""
-></script>
+{{ map_point|json_script:"mapPointData" }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script>
-    const detailMapEl = document.getElementById("detail-map");
-    if (detailMapEl) {
-        const map = L.map("detail-map").setView([{{ map_point.lat }}, {{ map_point.lng }}], 13);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
-            attribution: "&copy; OpenStreetMap contributors",
-        }).addTo(map);
-        L.marker([{{ map_point.lat }}, {{ map_point.lng }}]).addTo(map).bindPopup("{{ university.name }}");
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+        const detailMapEl = document.getElementById("detail-map");
+        if (detailMapEl && typeof L !== 'undefined') {
+            const mapPoint = JSON.parse(document.getElementById('mapPointData').textContent);
+            const lat = mapPoint.lat;
+            const lng = mapPoint.lng;
+            const map = L.map("detail-map").setView([lat, lng], 14);
+
+            const lightTiles = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 19,
+                attribution: "&copy; OpenStreetMap contributors",
+            });
+
+            const darkTiles = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+                maxZoom: 19,
+                attribution: "&copy; OpenStreetMap &copy; CARTO",
+            });
+
+            // Set initial theme
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            if (currentTheme === 'dark') {
+                darkTiles.addTo(map);
+            } else {
+                lightTiles.addTo(map);
+            }
+
+            // Sync with theme toggle
+            const toggleBtn = document.getElementById('theme-toggle');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    setTimeout(() => {
+                        const newTheme = document.documentElement.getAttribute('data-theme');
+                        if (newTheme === 'dark') {
+                            map.removeLayer(lightTiles);
+                            darkTiles.addTo(map);
+                        } else {
+                            map.removeLayer(darkTiles);
+                            lightTiles.addTo(map);
+                        }
+                    }, 50);
+                });
+            }
+
+            const marker = L.marker([lat, lng]).addTo(map);
+            const popupHtml = `
+                <div class="map-popup">
+                    <strong style="color: #000;">{{ university.name }}</strong><br>
+                    <small style="color: #666;">{{ university.region.name }}</small>
+                </div>
+            `;
+            marker.bindPopup(popupHtml);
+
+            // Trigger resize fix
+            setTimeout(() => { map.invalidateSize(); }, 400);
+        }
+    });
 </script>
 {% endif %}
 {% endblock %}
-
