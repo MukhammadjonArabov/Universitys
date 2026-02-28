@@ -3,8 +3,30 @@ from django.utils.html import format_html
 from .models import (
     Region, AcademicDegree, PositionDegree, Employee,
     University, Faculty, Kafedra, Direction,
-    Subject, EmployeeSubject, DirectionSubject
+    Subject, EmployeeSubject, DirectionSubject,
+    Profile, TestQuestion, TestOption, UserTestResult
 )
+
+
+class TestOptionInline(admin.TabularInline):
+    model = TestOption
+    extra = 4
+
+@admin.register(TestQuestion)
+class TestQuestionAdmin(admin.ModelAdmin):
+    list_display = ('text',)
+    inlines = [TestOptionInline]
+
+@admin.register(UserTestResult)
+class UserTestResultAdmin(admin.ModelAdmin):
+    list_display = ('user', 'recommendation', 'created_date')
+    list_filter = ('user', 'created_date')
+    readonly_fields = ('user', 'score_data', 'recommendation', 'created_date')
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'telegram_id', 'phone_number', 'verification_code')
+    search_fields = ('user__username', 'telegram_id', 'phone_number')
 
 
 @admin.register(Employee)

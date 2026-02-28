@@ -33,7 +33,8 @@
                     class="{% if '/universitetlar' in request.path %}active{% endif %}">Universitetlar</a>
                 <a href="{% url 'university:faculties' %}"
                     class="{% if '/fakultetlar' in request.path %}active{% endif %}">Fakultetlar</a>
-                <a href="#directions" class="disabled-link">Yoʻnalishlar</a>
+                <a href="{% url 'university:test_intro' %}"
+                    class="{% if '/test' in request.path %}active{% endif %}">Yoʻnalishni aniqlash</a>
                 <a href="#contact" class="disabled-link">Kontakt</a>
             </nav>
             <div class="nav-actions">

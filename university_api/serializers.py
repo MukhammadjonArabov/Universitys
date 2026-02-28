@@ -18,3 +18,10 @@ class UniversityListSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = ["name", "region", "phone_number", "image"]
+
+class TelegramUserSerializer(serializers.Serializer):
+    telegram_id = serializers.IntegerField()
+    phone_number = serializers.CharField(max_length=20)
+    first_name = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    last_name = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    username = serializers.CharField(max_length=255, required=False, allow_blank=True)

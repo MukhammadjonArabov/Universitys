@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Natija - Yo'nalishni aniqlash{% endblock %}
+
+{% block content %}
+<section class="section container">
+    <div class="result-card card glass">
+        <div class="result-header">
+            <div class="icon-blob">
+                <i class="fas fa-award fa-4x"></i>
+            </div>
+            <h2>Tabriklaymiz!</h2>
+            <p class="muted">Test muvaffaqiyatli yakunlandi. Sizning natijangiz quyidagicha:</p>
+        </div>
+
+        <div class="recommendation-box mt-5">
+            <h3>Tavsiya etilgan yo'nalish:</h3>
+            <div class="recommendation-text">
+                {{ result.recommendation }}
+            </div>
+        </div>
+
+        <div class="result-details mt-5">
+            <p>Ushbu natija sizning psixologik holatingiz va qiziqishlaringiz asosida shakllantirilgan. Bu siz uchun
+                doimiy saqlanib qoladi.</p>
+        </div>
+
+        <div class="result-actions mt-5">
+            <a href="{% url 'university:universities' %}" class="btn btn-primary">Universitetlarni ko'rish</a>
+            <a href="{% url 'university:home' %}" class="btn btn-ghost">Bosh sahifaga qaytish</a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .result-card {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 50px;
+        text-align: center;
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .icon-blob {
+        width: 120px;
+        height: 120px;
+        background: var(--primary);
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        color: white;
+        animation: blob-anim 10s infinite;
+    }
+
+    @keyframes blob-anim {
+
+        0%,
+        100% {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+
+        33% {
+            border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
+        }
+
+        66% {
+            border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
+        }
+    }
+
+    .recommendation-box {
+        background: rgba(var(--primary-rgb), 0.1);
+        padding: 30px;
+        border-radius: 20px;
+        border-left: 10px solid var(--primary);
+    }
+
+    .recommendation-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-top: 15px;
+    }
+</style>
+{% endblock %}

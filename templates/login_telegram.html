@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Kirish - Telegram orqali{% endblock %}
+
+{% block content %}
+<section class="section container">
+    <div class="login-card card glass">
+        <div class="login-header">
+            <i class="fab fa-telegram fa-4x mb-3" style="color: #0088cc;"></i>
+            <h2>Tizimga kirish</h2>
+            <p class="muted">Testni boshlash uchun Telegram botimizdan 4 xonali kod oling.</p>
+        </div>
+
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="code">Tasdiqlash kodi:</label>
+                <input type="text" name="code" id="code" class="form-control" placeholder="0000" maxlength="4" required>
+            </div>
+
+            {% if error %}
+            <div class="alert error mt-3">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary btn-block mt-4">Kirish</button>
+        </form>
+
+        <div class="bot-link mt-5">
+            <p>Hali kod olmadingizmi?</p>
+            <a href="https://t.me/{{ bot_username }}" target="_blank" class="btn btn-ghost">
+                <i class="fab fa-telegram-plane"></i> @{{ bot_username }} ga o'tish
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .login-card {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 40px;
+        text-align: center;
+        border-radius: 25px;
+    }
+
+    .form-group {
+        text-align: left;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: inherit;
+        font-size: 1.5rem;
+        text-align: center;
+        letter-spacing: 10px;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary);
+        outline: none;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+
+    .alert.error {
+        background: rgba(255, 0, 0, 0.1);
+        color: #ff4d4d;
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}

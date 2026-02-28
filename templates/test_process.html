@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Test jarayoni - Yo'nalishni aniqlash{% endblock %}
+
+{% block content %}
+<section class="section container">
+    <div class="test-process-wrapper">
+        <div class="test-header-sticky card glass">
+            <div class="timer-wrapper">
+                <i class="fas fa-clock"></i>
+                <span id="timer">30:00</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+            </div>
+            <div class="question-counter">
+                Savol: <span id="current-q-num">1</span> / 20
+            </div>
+        </div>
+
+        <div id="test-form" class="mt-4">
+            {% for question in questions %}
+            <div class="question-card card glass mb-4" id="q-{{ forloop.counter }}"
+                style="{% if not forloop.first %}display: none;{% endif %}">
+                <h3>{{ forloop.counter }}. {{ question.text }}</h3>
+                <div class="options-list mt-4">
+                    {% for option in question.options %}
+                    <label class="option-item">
+                        <input type="radio" name="question-{{ forloop.parentloop.counter }}" value="{{ option.id }}"
+                            onchange="handleSelection({{ forloop.parentloop.counter }}, this.value)">
+                        <span class="option-text">{{ option.text }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="form-actions mt-4">
+                <button id="prev-btn" class="btn btn-ghost" onclick="prevQuestion()"
+                    style="display: none;">Oldingisi</button>
+                <button id="finish-btn" class="btn btn-primary" onclick="submitTest()"
+                    style="display: none;">Yakunlash</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .test-header-sticky {
+        position: sticky;
+        top: 80px;
+        z-index: 100;
+        padding: 15px 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        /* Added spacing from questions */
+    }
+
+    .timer-wrapper {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 100px;
+    }
+
+    .progress-container {
+        flex-grow: 1;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: var(--primary);
+        transition: width 0.3s ease;
+    }
+
+    .question-card {
+        padding: 40px;
+        border-radius: 20px;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .options-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .option-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid transparent;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .option-item:hover {
+        background: rgba(var(--primary-rgb), 0.1);
+        border-color: var(--primary);
+    }
+
+    .option-item input {
+        display: none;
+    }
+
+    .option-item .option-text {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .option-item input:checked+.option-text {
+        color: var(--primary);
+        font-weight: 700;
+    }
+
+    .option-item:has(input:checked) {
+        border-color: var(--primary);
+        background: rgba(var(--primary-rgb), 0.15);
+    }
+</style>
+
+<script>
+    let currentQuestion = 1;
+    const totalQuestions = {{ questions| length }};
+    let timeLeft = 30 * 60; // 30 minutes in seconds
+    let answers = {};
+    let timerInterval = null;
+
+    // Pre-map question numbers to IDs for performance
+    const questionMap = {
+        {% for question in questions %}
+    "{{ forloop.counter }}": "{{ question.id }}",
+        {% endfor %}
+    };
+
+    function updateTimer() {
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Vaqt tugadi! Natijalar hisoblanmoqda...");
+            submitTest();
+            return;
+        }
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    function startTimer() {
+        if (!timerInterval) {
+            timerInterval = setInterval(updateTimer, 1000);
+            console.log("Timer started");
+        }
+    }
+
+    async function handleSelection(num, value) {
+        console.log(`handleSelection: Q${num}, Value ${value}`);
+        const q_id = questionMap[num];
+        answers[q_id] = value;
+
+        // Start timer when first question is answered
+        if (num === 1) {
+            startTimer();
+        }
+
+        // Auto progression logic with a slight delay for user to see their selection
+        setTimeout(async () => {
+            if (currentQuestion < totalQuestions) {
+                document.getElementById(`q-${currentQuestion}`).style.display = 'none';
+                currentQuestion++;
+                document.getElementById(`q-${currentQuestion}`).style.display = 'block';
+                document.getElementById('current-q-num').textContent = currentQuestion;
+                document.getElementById('progress-bar').style.width = `${(currentQuestion / totalQuestions) * 100}%`;
+
+                document.getElementById('prev-btn').style.display = 'inline-block';
+
+                if (currentQuestion === totalQuestions) {
+                    document.getElementById('finish-btn').style.display = 'inline-block';
+                }
+            } else {
+                // Last question answered -> Submit
+                console.log("Last question answered, submitting...");
+                await submitTest();
+            }
+        }, 300);
+    }
+
+    function prevQuestion() {
+        if (currentQuestion > 1) {
+            document.getElementById(`q-${currentQuestion}`).style.display = 'none';
+            currentQuestion--;
+            document.getElementById(`q-${currentQuestion}`).style.display = 'block';
+            document.getElementById('current-q-num').textContent = currentQuestion;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion) / totalQuestions) * 100}%`;
+
+            if (currentQuestion === 1) {
+                document.getElementById('prev-btn').style.display = 'none';
+            }
+            document.getElementById('finish-btn').style.display = 'none';
+        }
+    }
+
+    async function submitTest() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        console.log("Submitting test with answers:", answers);
+
+        try {
+            const response = await fetch("{% url 'university:submit_test' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ answers: answers })
+            });
+            const data = await response.json();
+            if (data.status === 'success') {
+                window.location.href = data.redirect_url;
+            } else {
+                alert("Xatolik: " + data.message);
+            }
+        } catch (e) {
+            console.error("Submission error:", e);
+            alert("Xatolik yuz berdi. Iltimos qayta urinib ko'ring.");
+        }
+    }
+</script>
+{% endblock %}
