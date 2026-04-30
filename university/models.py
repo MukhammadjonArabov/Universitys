@@ -112,3 +112,17 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     if hasattr(instance, 'profile'):
         instance.profile.save()
+
+
+class AdditionalResource(BaseModel):
+    title = models.CharField(max_length=255)
+    url = models.URLField()
+    description = models.TextField(blank=True, null=True)
+    icon_class = models.CharField(max_length=100, default="fas fa-link", help_text="FontAwesome icon class (e.g. fas fa-globe)")
+
+    class Meta:
+        verbose_name = "Qo'shimcha manba"
+        verbose_name_plural = "Qo'shimcha manbalar"
+
+    def __str__(self):
+        return self.title

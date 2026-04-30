@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import (
     Region, University, Direction,
-    Profile, TestQuestion, TestOption, UserTestResult
+    Profile, TestQuestion, TestOption, UserTestResult,
+    AdditionalResource
 )
 
 
@@ -44,4 +45,11 @@ class DirectionAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
     readonly_fields = ('created_date', 'updated_date')
+
+
+@admin.register(AdditionalResource)
+class AdditionalResourceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'url')
+    search_fields = ('title', 'description')
+
 

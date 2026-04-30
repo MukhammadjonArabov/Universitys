@@ -32,6 +32,8 @@
                     sahifa</a>
                 <a href="{% url 'university:universities' %}"
                     class="{% if '/universitetlar' in request.path %}active{% endif %}">Universitetlar</a>
+                <a href="{% url 'university:resources' %}"
+                    class="{% if '/manbalar' in request.path %}active{% endif %}">Manbalar</a>
 
                 <a href="{% url 'university:test_intro' %}"
                     class="{% if '/test' in request.path %}active{% endif %}">Yoʻnalishni aniqlash</a>

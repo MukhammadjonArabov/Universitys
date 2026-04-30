@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Qo'shimcha manbalar - UzUniversitet{% endblock %}
+
+{% block content %}
+<section class="page-header container">
+    <div>
+        <p class="eyebrow"><i class="fas fa-link"></i> Manbalar</p>
+        <h2>Qo‘shimcha manbalar</h2>
+        <p class="muted">O‘zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar.</p>
+    </div>
+</section>
+
+<section class="container">
+    {% if resources %}
+    <div class="cards-grid">
+        {% for resource in resources %}
+        <a href="{{ resource.url }}" target="_blank" class="card-link">
+            <article class="card hover-lift resource-card">
+                <div class="card-body">
+                    <div class="icon-circle mb-3">
+                        <i class="{{ resource.icon_class }}"></i>
+                    </div>
+                    <h3>{{ resource.title }}</h3>
+                    {% if resource.description %}
+                    <p class="muted">{{ resource.description }}</p>
+                    {% endif %}
+                    <div class="card-footer-simple mt-auto">
+                        <span class="text-primary font-bold">O'tish <i class="fas fa-external-link-alt ml-1"></i></span>
+                    </div>
+                </div>
+            </article>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state card glass">
+        <i class="fas fa-circle-exclamation"></i>
+        <h3>Manbalar mavjud emas</h3>
+        <p class="muted">Tez orada bu yerda foydali havolalar paydo bo'ladi.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

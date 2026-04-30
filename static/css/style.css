@@ -588,62 +588,64 @@ a {
     justify-content: flex-start;
 }
 
-.filter-dropdown {
-    position: relative;
-    display: inline-block;
-    padding: 0.8rem 1.4rem;
-    cursor: pointer;
-    z-index: 100;
-    transition: all 0.3s ease;
+.regions-filter-container {
+    width: 100%;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 5px;
+    scrollbar-width: none; /* Firefox */
 }
 
-.dropdown-trigger {
+.regions-filter-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.regions-scroll {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: 700;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.region-pill {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.region-pill:hover {
+    border-color: var(--primary);
     color: var(--primary);
 }
 
-.dropdown-trigger i {
-    font-size: 1.4rem;
-}
-
-.active-badge {
+.region-pill.active {
     background: var(--primary);
     color: white;
-    padding: 2px 10px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    margin-left: 5px;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
 }
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    width: 300px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 12px;
-    animation: fadeIn 0.3s ease-out;
+.university-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--text);
 }
 
-[data-theme='dark'] .dropdown-menu {
-    background: var(--card);
-    border-color: var(--border);
-}
-
-.filter-dropdown.active .dropdown-menu,
-.filter-dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-.dropdown-trigger * {
-    pointer-events: none;
+.university-card .card-body {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
 }
 
 .dropdown-item {
@@ -699,6 +701,30 @@ a {
 .university-card {
     display: flex;
     flex-direction: column;
+}
+
+.resource-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.resource-card .icon-circle {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 1.5rem;
+}
+
+.card-footer-simple {
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
 }
 
 .card-media {

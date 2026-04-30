@@ -1,12 +1,7 @@
 <a href="{% url 'university:university_detail' university.id %}" class="card-link">
     <article class="card university-card hover-lift">
         <div class="card-body">
-            <h3>{{ university.name }}</h3>
-            {% if university.region %}
-                <p class="muted"><i class="fas fa-location-dot"></i> {{ university.region.name }}</p>
-            {% endif %}
-            <p class="muted"><i class="fas fa-phone"></i> {{ university.phone_number }}</p>
-            <p class="muted"><i class="fas fa-envelope"></i> {{ university.email }}</p>
+            <h3 class="university-name">{{ university.name }}</h3>
         </div>
     </article>
 </a>

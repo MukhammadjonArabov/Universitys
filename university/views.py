@@ -17,6 +17,7 @@ from .models import (
     TestQuestion,
     TestOption,
     UserTestResult,
+    AdditionalResource,
 )
 
 # 20 Static Psychological Questions
@@ -271,8 +272,8 @@ def universities_list_view(request):
 
     queryset = University.objects.select_related("region").all().order_by("name")
 
-    if region_id:
-        queryset = queryset.filter(region_id=region_id)
+    if region_id and region_id.isdigit():
+        queryset = queryset.filter(region_id=int(region_id))
 
     if search_query:
         queryset = queryset.filter(
@@ -288,8 +289,8 @@ def universities_list_view(request):
 
     regions = Region.objects.order_by("name")
     active_region = None
-    if region_id:
-        active_region = regions.filter(id=region_id).first()
+    if region_id and region_id.isdigit():
+        active_region = regions.filter(id=int(region_id)).first()
 
     return render(
         request,
@@ -329,6 +330,14 @@ def university_detail_view(request, pk):
             "map_point": map_point,
         },
     )
+
+
+def resources_list_view(request):
+    """
+    List of additional resources/links.
+    """
+    resources = AdditionalResource.objects.order_by("title")
+    return render(request, "resources.html", {"resources": resources})
 
 
 
