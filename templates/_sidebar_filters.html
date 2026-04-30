@@ -1,24 +1,21 @@
-<aside class="sidebar card glass">
-    <div class="sidebar-header">
-        <div class="eyebrow"><i class="fas fa-filter"></i> Filtr</div>
+<div class="filter-dropdown card glass">
+    <div class="dropdown-trigger" onclick="toggleFilterDropdown(event)">
+        <i class="fas fa-bars"></i>
+        <span>Viloyatni tanlang</span>
         {% if active_region %}
-            <span class="badge">Tanlangan: {{ active_region.name }}</span>
+            <span class="active-badge">{{ active_region.name }}</span>
         {% endif %}
     </div>
-    <ul class="filter-list">
-        <li>
-            <a class="{% if not selected_region_id %}active{% endif %}" href="?{% if search_query %}search={{ search_query }}{% endif %}">
-                <i class="fas fa-globe"></i> Barcha viloyatlar
-            </a>
-        </li>
+    <div class="dropdown-menu">
+        <a class="dropdown-item {% if not selected_region_id %}active{% endif %}" href="?{% if search_query %}search={{ search_query }}{% endif %}">
+            <i class="fas fa-globe"></i> Barcha viloyatlar
+        </a>
         {% for region in regions %}
-            <li>
-                <a class="{% if selected_region_id|default:'' == region.id|stringformat:'s' %}active{% endif %}"
-                   href="?region={{ region.id }}{% if search_query %}&search={{ search_query }}{% endif %}">
-                    <i class="fas fa-location-dot"></i> {{ region.name }}
-                </a>
-            </li>
+            <a class="dropdown-item {% if selected_region_id|default:'' == region.id|stringformat:'s' %}active{% endif %}"
+               href="?region={{ region.id }}{% if search_query %}&search={{ search_query }}{% endif %}">
+                <i class="fas fa-location-dot"></i> {{ region.name }}
+            </a>
         {% endfor %}
-    </ul>
-</aside>
+    </div>
+</div>
 

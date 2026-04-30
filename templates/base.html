@@ -7,6 +7,7 @@
     <title>{% block title %}UzUniversitets{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'logo/logo_univesity.png' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -31,8 +32,7 @@
                     sahifa</a>
                 <a href="{% url 'university:universities' %}"
                     class="{% if '/universitetlar' in request.path %}active{% endif %}">Universitetlar</a>
-                <a href="{% url 'university:faculties' %}"
-                    class="{% if '/fakultetlar' in request.path %}active{% endif %}">Fakultetlar</a>
+
                 <a href="{% url 'university:test_intro' %}"
                     class="{% if '/test' in request.path %}active{% endif %}">Yoʻnalishni aniqlash</a>
                 <a href="#contact" class="disabled-link">Kontakt</a>

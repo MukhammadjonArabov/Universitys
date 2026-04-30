@@ -22,8 +22,10 @@
     </form>
 </section>
 
-<section class="container layout-grid">
-    {% include "_sidebar_filters.html" with regions=regions active_region=active_region selected_region_id=selected_region_id search_query=search_query %}
+<section class="container">
+    <div class="filter-row">
+        {% include "_sidebar_filters.html" with regions=regions active_region=active_region selected_region_id=selected_region_id search_query=search_query %}
+    </div>
 
     <div class="content-area">
         {% if universities %}
@@ -59,5 +61,25 @@
         {% endif %}
     </div>
 </section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function toggleFilterDropdown(e) {
+        e.stopPropagation();
+        const dropdown = document.querySelector('.filter-dropdown');
+        if (dropdown) {
+            dropdown.classList.toggle('active');
+        }
+    }
+
+    // Close when clicking outside
+    document.addEventListener('click', () => {
+        const dropdown = document.querySelector('.filter-dropdown');
+        if (dropdown) {
+            dropdown.classList.remove('active');
+        }
+    });
+</script>
 {% endblock %}
 

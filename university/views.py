@@ -12,9 +12,6 @@ from django.conf import settings
 from .models import (
     University,
     Region,
-    Faculty,
-    Employee,
-    EmployeeSubject,
     Direction,
     Profile,
     TestQuestion,
@@ -253,8 +250,6 @@ def home_view(request):
 
     # Get counts from database
     universities_count = University.objects.count()
-    faculties_count = Faculty.objects.count()
-    directions_count = Direction.objects.count()
 
     return render(
         request,
@@ -263,8 +258,6 @@ def home_view(request):
             "map_data": map_data,
             "universities_geo_count": len(map_data),
             "universities_count": universities_count,
-            "faculties_count": faculties_count,
-            "directions_count": directions_count,
         },
     )
 
@@ -320,23 +313,6 @@ def university_detail_view(request, pk):
         University.objects.select_related("region"), pk=pk
     )
 
-    faculties = (
-        Faculty.objects.filter(university=university)
-        .select_related("employee")
-        .order_by("name")
-    )
-
-    employees = (
-        university.employee.select_related("degree", "position")
-        .prefetch_related(
-            Prefetch(
-                "employeesubject_set",
-                queryset=EmployeeSubject.objects.select_related("subject"),
-            )
-        )
-        .order_by("last_name", "first_name")
-    )
-
     map_point = None
     if university.latitude and university.longitude:
         map_point = {
@@ -350,70 +326,11 @@ def university_detail_view(request, pk):
         "university_detail.html",
         {
             "university": university,
-            "faculties": faculties,
-            "employees": employees,
             "map_point": map_point,
         },
     )
 
-def faculties_list_view(request):
-    """
-    Faculties list with university filter and text search.
-    """
-    search_query = request.GET.get("search", "").strip()
-    university_id = request.GET.get("university")
 
-    queryset = Faculty.objects.select_related("university").all().order_by("name")
-
-    if university_id:
-        queryset = queryset.filter(university_id=university_id)
-
-    if search_query:
-        queryset = queryset.filter(
-            Q(name__icontains=search_query) | Q(description__icontains=search_query)
-        )
-
-    paginator = Paginator(queryset, 12)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    universities = University.objects.all().order_by("name")
-    active_university = None
-    if university_id:
-        active_university = universities.filter(id=university_id).first()
-
-    return render(
-        request,
-        "faculties.html",
-        {
-            "universities": universities,
-            "active_university": active_university,
-            "page_obj": page_obj,
-            "faculties": page_obj.object_list,
-            "search_query": search_query,
-            "selected_university_id": university_id,
-        },
-    )
-
-
-def faculty_detail_view(request, pk):
-    """
-    Faculty detail page showing description, kafedras, directions, and subjects.
-    """
-    faculty = get_object_or_404(
-        Faculty.objects.select_related("university", "employee").prefetch_related(
-            "kafedras__direction_set__directionsubject_set__subject"
-        ), 
-        pk=pk
-    )
-    
-    return render(
-        request,
-        "faculty_detail.html",
-        {
-            "faculty": faculty,
-        },
-    )
 
 
 def test_intro_view(request):
