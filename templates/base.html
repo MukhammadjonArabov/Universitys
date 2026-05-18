@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="{% get_current_language %}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}UzUniversitets{% endblock %}</title>
     {% load static %}
+    {% load i18n %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="shortcut icon" href="{% static 'logo/logo_univesity.png' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -28,18 +29,29 @@
                 <i class="fas fa-graduation-cap"></i> UzUniversitet
             </a>
             <nav class="nav-links">
-                <a href="{% url 'university:home' %}" class="{% if request.path == '/' %}active{% endif %}">Bosh
-                    sahifa</a>
+                <a href="{% url 'university:home' %}" class="{% if request.path == '/' %}active{% endif %}">{% trans "Bosh sahifa" %}</a>
                 <a href="{% url 'university:universities' %}"
-                    class="{% if '/universitetlar' in request.path %}active{% endif %}">Universitetlar</a>
+                    class="{% if '/universitetlar' in request.path %}active{% endif %}">{% trans "Universitetlar" %}</a>
                 <a href="{% url 'university:resources' %}"
-                    class="{% if '/manbalar' in request.path %}active{% endif %}">Manbalar</a>
+                    class="{% if '/manbalar' in request.path %}active{% endif %}">{% trans "Manbalar" %}</a>
 
                 <a href="{% url 'university:test_intro' %}"
-                    class="{% if '/test' in request.path %}active{% endif %}">Yoʻnalishni aniqlash</a>
-                <a href="#contact" class="disabled-link">Kontakt</a>
+                    class="{% if '/test' in request.path %}active{% endif %}">{% trans "Yoʻnalishni aniqlash" %}</a>
+                <a href="#contact" class="disabled-link">{% trans "Kontakt" %}</a>
             </nav>
             <div class="nav-actions">
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <form action="{% url 'set_language' %}" method="post" class="language-form" id="language-form">
+                        {% csrf_token %}
+                        <select name="language" id="language-select" onchange="document.getElementById('language-form').submit()">
+                            <option value="uz" {% if LANGUAGE_CODE == 'uz' %}selected{% endif %}>O'z</option>
+                            <option value="ru" {% if LANGUAGE_CODE == 'ru' %}selected{% endif %}>Рус</option>
+                            <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>Eng</option>
+                        </select>
+                    </form>
+                </div>
+                
                 <button id="theme-toggle" class="btn-icon">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -62,8 +74,8 @@
 
         <!-- Animatsiyali matn -->
         <div class="hero-text">
-            <h1 class="animate-title">Xush kelibsiz!</h1>
-            <p class="animate-subtitle">O'zbekiston universitetlari haqida to'liq ma'lumot</p>
+            <h1 class="animate-title">{% trans "Xush kelibsiz!" %}</h1>
+            <p class="animate-subtitle">{% trans "O'zbekiston universitetlari haqida to'liq ma'lumot" %}</p>
         </div>
     </section>
     {% endif %}
@@ -77,7 +89,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>© 2025 UzUniversitets. Barcha huquqlar himoyalangan.</p>
+            <p>© 2025 UzUniversitets. {% trans "Barcha huquqlar himoyalangan." %}</p>
         </div>
     </footer>
 

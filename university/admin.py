@@ -10,10 +10,27 @@ from .models import (
 class TestOptionInline(admin.TabularInline):
     model = TestOption
     extra = 4
+    fields = ('text_uz', 'text_ru', 'text_en', 'direction', 'score')
 
 @admin.register(TestQuestion)
 class TestQuestionAdmin(admin.ModelAdmin):
-    list_display = ('text',)
+    list_display = ('get_text_preview',)
+    fieldsets = (
+        ('O\'zbekcha (Uzbek)', {
+            'fields': ('text_uz',)
+        }),
+        ('Русский (Russian)', {
+            'fields': ('text_ru',)
+        }),
+        ('English', {
+            'fields': ('text_en',)
+        }),
+    )
+    
+    def get_text_preview(self, obj):
+        return obj.text_uz[:50]
+    get_text_preview.short_description = 'Text'
+    
     inlines = [TestOptionInline]
 
 @admin.register(UserTestResult)
@@ -30,26 +47,83 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name_uz', 'name_ru', 'name_en')
+    fieldsets = (
+        ('O\'zbekcha (Uzbek)', {
+            'fields': ('name_uz',)
+        }),
+        ('Русский (Russian)', {
+            'fields': ('name_ru',)
+        }),
+        ('English', {
+            'fields': ('name_en',)
+        }),
+    )
+    search_fields = ('name_uz', 'name_ru', 'name_en')
 
 
 @admin.register(University)
 class UniversityAdmin(admin.ModelAdmin):
     list_filter = ('region',)
-    search_fields = ('name', 'email', 'phone_number')
+    search_fields = ('name_uz', 'name_ru', 'name_en', 'email', 'phone_number')
     readonly_fields = ('created_date', 'updated_date')
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('region', 'phone_number', 'email', 'website', 'image', 'latitude', 'longitude')
+        }),
+        ('O\'zbekcha (Uzbek)', {
+            'fields': ('name_uz', 'postal_address_uz')
+        }),
+        ('Русский (Russian)', {
+            'fields': ('name_ru', 'postal_address_ru')
+        }),
+        ('English', {
+            'fields': ('name_en', 'postal_address_en')
+        }),
+        ('Timestamps', {
+            'fields': ('created_date', 'updated_date')
+        }),
+    )
 
 
 @admin.register(Direction)
 class DirectionAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
+    list_display = ('name_uz', 'name_ru', 'name_en')
+    search_fields = ('name_uz', 'name_ru', 'name_en')
     readonly_fields = ('created_date', 'updated_date')
+    fieldsets = (
+        ('O\'zbekcha (Uzbek)', {
+            'fields': ('name_uz',)
+        }),
+        ('Русский (Russian)', {
+            'fields': ('name_ru',)
+        }),
+        ('English', {
+            'fields': ('name_en',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_date', 'updated_date')
+        }),
+    )
 
 
 @admin.register(AdditionalResource)
 class AdditionalResourceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'url')
-    search_fields = ('title', 'description')
+    list_display = ('title_uz', 'title_ru', 'title_en', 'url')
+    search_fields = ('title_uz', 'title_ru', 'title_en', 'description_uz', 'description_ru', 'description_en')
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('url', 'icon_class')
+        }),
+        ('O\'zbekcha (Uzbek)', {
+            'fields': ('title_uz', 'description_uz')
+        }),
+        ('Русский (Russian)', {
+            'fields': ('title_ru', 'description_ru')
+        }),
+        ('English', {
+            'fields': ('title_en', 'description_en')
+        }),
+    )
 
 
