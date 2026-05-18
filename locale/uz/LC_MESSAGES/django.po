@@ -1,0 +1,40 @@
+# Uzbek translations for project.
+# Copyright (C) 2025 The AUTHORS
+# This file is distributed under the same license as the project package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-01 00:00+0000\n"
+"PO-Revision-Date: 2025-01-01 00:00+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Uzbek (http://www.transifex.com/projects/p/django-cms/language/uz/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uz\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Bosh sahifa"
+msgstr "Bosh sahifa"
+
+msgid "Universitetlar"
+msgstr "Universitetlar"
+
+msgid "Manbalar"
+msgstr "Manbalar"
+
+msgid "Yoʻnalishni aniqlash"
+msgstr "Yoʻnalishni aniqlash"
+
+msgid "Kontakt"
+msgstr "Kontakt"
+
+msgid "Xush kelibsiz!"
+msgstr "Xush kelibsiz!"
+
+msgid "Barcha huquqlar himoyalangan."
+msgstr "Barcha huquqlar himoyalangan."
