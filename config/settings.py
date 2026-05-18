@@ -187,7 +187,7 @@ JAZZMIN_SETTINGS = {
     "site_logo": "logo/logo_univesity.png",
     "welcome_sign": "Admin panelga xush kelibsiz",
     "copyright": "Universitet © 2025",
-    "search_model": "university.employee",
+    "search_model": "university.University",
     "topmenu_links": [
         {"name": "Saytga o‘tish", "url": "/", "new_window": True},
         {"model": "auth.user"},
