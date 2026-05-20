@@ -1,0 +1,37 @@
+{% extends "layouts/base.html" %}
+{% load static i18n socialaccount %}
+
+{% block title %}{% trans "Tizimga kirish" %} - UzOTM{% endblock %}
+
+{% block content %}
+<section class="section container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="login-card card glass text-center" style="max-width: 500px; padding: 3rem 2rem; border-radius: 20px;">
+        <div class="icon-blob" style="width: 100px; height: 100px; background: rgba(var(--primary-rgb), 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--primary);">
+            <i class="fas fa-user-astronaut fa-3x"></i>
+        </div>
+        
+        <h2 style="margin-bottom: 1rem;">{% trans "Xush kelibsiz" %}</h2>
+        <p class="muted" style="margin-bottom: 2rem;">
+            {% trans "Testni boshlash va natijalaringizni AI orqali tahlil qilish uchun Google orqali tizimga kiring." %}
+        </p>
+
+        <!-- Google OAuth Form -->
+        <a href="{% provider_login_url 'google' %}" class="btn google-btn" style="display: inline-flex; align-items: center; gap: 15px; background: white; color: #333; padding: 12px 30px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; border: 1px solid #ddd; transition: all 0.3s; width: 100%; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" style="width: 24px; height: 24px;">
+            <span>{% trans "Google orqali kirish" %}</span>
+        </a>
+        
+        <p class="muted" style="font-size: 0.85rem; margin-top: 2rem;">
+            <i class="fas fa-shield-alt"></i> {% trans "Ma'lumotlaringiz xavfsizligi kafolatlangan." %}
+        </p>
+    </div>
+</section>
+
+<style>
+    .google-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+        background: #f8f9fa !important;
+    }
+</style>
+{% endblock %}

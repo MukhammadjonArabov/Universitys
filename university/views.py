@@ -400,19 +400,8 @@ def submit_test(request):
                                 break
                     if found: break
             
-            # Find best direction name
-            if direction_scores:
-                best_direction_name = max(direction_scores, key=direction_scores.get)
-                
-                # Try to find a real Direction object by name to provide more info
-                # or just use the name if not found.
-                real_direction = Direction.objects.filter(name__icontains=best_direction_name).first()
-                if real_direction:
-                    recommendation = f"Sizning qiziqishlaringizga ko'ra '{real_direction.name}' yo'nalishi sizga mos keladi."
-                else:
-                    recommendation = f"Sizning qiziqishlaringizga ko'ra '{best_direction_name}' sohasi sizga mos keladi."
-            else:
-                recommendation = "Test natijalariga ko'ra aniq yo'nalish topilmadi."
+            # Always set default recommendation as it will be updated by Gemini later.
+            recommendation = "Gemini AI natijalaringizni tahlil qilmoqda..."
 
             # Save result
             result = UserTestResult.objects.create(
@@ -432,33 +421,56 @@ def submit_test(request):
     return redirect("university:test_intro")
 
 
+from django.views.decorators.http import require_POST
+import environ
+from google import genai
+
+env = environ.Env()
+
 @login_required
 def test_result_view(request, pk):
     """Display test result."""
     result = get_object_or_404(UserTestResult, pk=pk, user=request.user)
     return render(request, "pages/test_result.html", {"result": result})
 
+@login_required
+@require_POST
+def analyze_test_api(request, pk):
+    result = get_object_or_404(UserTestResult, pk=pk, user=request.user)
+    
+    lang = get_current_language(request)
+    lang_map = {'uz': 'Uzbek', 'ru': 'Russian', 'en': 'English'}
+    target_lang = lang_map.get(lang, 'Uzbek')
+    
+    scores_text = "\\n".join([f"- {k}: {v} points" for k, v in result.score_data.items()])
+    
+    prompt = f"""
+You are an expert career counselor and psychologist. 
+A student has completed a psychological career test and got the following scores in different fields:
+{scores_text}
 
-def verify_code_view(request):
-    """Handle 4-digit code login."""
+Analyze these results and provide a highly motivating, personalized, and professional career recommendation.
+Explain briefly why these fields fit the student based on their scores. Do not format as a letter, just return the raw text. Use markdown for bolding.
+IMPORTANT: You MUST write your entire response in {target_lang} language!
+"""
+    try:
+        client = genai.Client(api_key=env('GEMINI_API_KEY'))
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
+        recommendation_text = response.text
+        
+        result.recommendation = recommendation_text
+        result.save()
+        
+        return JsonResponse({"status": "success", "recommendation": recommendation_text})
+    except Exception as e:
+        print("Gemini API Error:", e)
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+def login_view(request):
+    """Render the beautifully designed Google login page."""
     if request.user.is_authenticated:
         return redirect("university:test_process")
-        
-    error = None
-    if request.method == "POST":
-        code = request.POST.get("code")
-        profile = Profile.objects.filter(verification_code=code).first()
-        if profile:
-            # Login the user
-            login(request, profile.user)
-            # Clear code after use? User didn't specify, but safer.
-            profile.verification_code = None
-            profile.save()
-            return redirect("university:test_process")
-        else:
-            error = "Noto'g'ri kod kiritildi."
-            
-    return render(request, "auth/login_telegram.html", {
-        "error": error,
-        "bot_username": settings.BOT_USERNAME
-    })
+    return render(request, "auth/login.html")

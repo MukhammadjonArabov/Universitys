@@ -30,15 +30,15 @@
 
         <div class="test-info alert info">
             <p><i class="fas fa-info-circle"></i> Testni boshlash uchun tizimga kirgan bo'lishingiz kerak. Agar
-                ro'yxatdan o'tmagan bo'lsangiz, Telegram botimiz orqali tezda ro'yxatdan o'tishingiz mumkin.</p>
+                ro'yxatdan o'tmagan bo'lsangiz, Google hisobingiz orqali tezda ro'yxatdan o'tishingiz mumkin.</p>
         </div>
 
         <div class="test-actions">
             {% if user.is_authenticated %}
             <a href="{% url 'university:test_process' %}" class="btn btn-primary btn-lg">Testni boshlash</a>
             {% else %}
-            <a href="{% url 'university:verify_code' %}" class="btn btn-primary btn-lg">Boshlash (Kirish)</a>
-            <p class="mt-3"><small>Tizimga kirish uchun Telegram botimizdan kod oling.</small></p>
+            <a href="{% url 'university:login' %}" class="btn btn-primary btn-lg">Boshlash (Kirish)</a>
+            <p class="mt-3"><small>Tizimga kirish uchun Google hisobingizdan foydalaning.</small></p>
             {% endif %}
         </div>
     </div>

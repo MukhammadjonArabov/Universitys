@@ -4,86 +4,142 @@
 {% block title %}Natija - Yo'nalishni aniqlash{% endblock %}
 
 {% block content %}
-<section class="section container">
-    <div class="result-card card glass">
-        <div class="result-header">
-            <div class="icon-blob">
-                <i class="fas fa-award fa-4x"></i>
+<section class="section container" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center;">
+    <div class="result-card card glass" style="max-width: 800px; margin: 0 auto; padding: 40px; border-radius: 20px; text-align: center; position: relative; overflow: hidden;">
+        
+        <!-- Background Glow -->
+        <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(var(--primary-rgb),0.1) 0%, transparent 50%); z-index: 0; pointer-events: none;"></div>
+
+        <div style="position: relative; z-index: 1;">
+            
+            <div class="result-header">
+                <h2>Tabriklaymiz!</h2>
+                <p class="muted">Test muvaffaqiyatli yakunlandi. Sizning natijangiz tahlil qilinmoqda.</p>
             </div>
-            <h2>Tabriklaymiz!</h2>
-            <p class="muted">Test muvaffaqiyatli yakunlandi. Sizning natijangiz quyidagicha:</p>
-        </div>
 
-        <div class="recommendation-box mt-5">
-            <h3>Tavsiya etilgan yo'nalish:</h3>
-            <div class="recommendation-text">
-                {{ result.recommendation }}
+            <!-- Loader Container -->
+            <div id="ai-loader-container" style="margin: 40px 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div class="ai-spinner"></div>
+                <h4 style="margin-top: 20px; color: var(--primary); font-weight: 600;" class="loading-text">Gemini AI natijalaringizni tekshirmoqda...</h4>
             </div>
-        </div>
 
-        <div class="result-details mt-5">
-            <p>Ushbu natija sizning psixologik holatingiz va qiziqishlaringiz asosida shakllantirilgan. Bu siz uchun
-                doimiy saqlanib qoladi.</p>
-        </div>
+            <!-- Result Container (Hidden initially) -->
+            <div id="ai-result-container" style="display: none; text-align: left; animation: slideUp 0.8s ease forwards;">
+                <div class="recommendation-box mt-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-left: 5px solid var(--primary); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <i class="fas fa-robot fa-2x" style="color: var(--primary);"></i>
+                        <h3 style="margin: 0; font-weight: 700;">Gemini AI Xulosasi</h3>
+                    </div>
+                    
+                    <div id="recommendation-text" style="font-size: 1.1rem; line-height: 1.8; color: var(--text-primary);">
+                        <!-- AI text will go here -->
+                    </div>
+                </div>
 
-        <div class="result-actions mt-5">
-            <a href="{% url 'university:universities' %}" class="btn btn-primary">Universitetlarni ko'rish</a>
-            <a href="{% url 'university:home' %}" class="btn btn-ghost">Bosh sahifaga qaytish</a>
+                <div class="result-actions mt-5" style="text-align: center;">
+                    <a href="{% url 'university:universities' %}" class="btn btn-primary" style="padding: 12px 30px; border-radius: 50px;">Tavsiya etilgan universitetlarni ko'rish</a>
+                    <a href="{% url 'university:home' %}" class="btn btn-ghost" style="padding: 12px 30px; border-radius: 50px;">Bosh sahifa</a>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
 
 <style>
-    .result-card {
-        max-width: 800px;
-        margin: 50px auto;
-        padding: 50px;
-        text-align: center;
-        border-radius: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Spinning Dumoq Animation */
+    .ai-spinner {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 4px solid rgba(var(--primary-rgb), 0.2);
+        border-top-color: var(--primary);
+        border-left-color: var(--gold);
+        animation: spin 1s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        position: relative;
     }
 
-    .icon-blob {
-        width: 120px;
-        height: 120px;
-        background: var(--primary);
-        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 30px;
-        color: white;
-        animation: blob-anim 10s infinite;
+    .ai-spinner::before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: var(--electric-blue);
+        animation: spin-reverse 2s infinite linear;
     }
 
-    @keyframes blob-anim {
-
-        0%,
-        100% {
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-        }
-
-        33% {
-            border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
-        }
-
-        66% {
-            border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
-        }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
-    .recommendation-box {
-        background: rgba(var(--primary-rgb), 0.1);
-        padding: 30px;
-        border-radius: 20px;
-        border-left: 10px solid var(--primary);
+    @keyframes spin-reverse {
+        0% { transform: rotate(360deg); }
+        100% { transform: rotate(0deg); }
     }
 
-    .recommendation-text {
-        font-size: 1.5rem;
+    .loading-text {
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Simple Markdown styling */
+    #recommendation-text strong {
+        color: var(--gold);
         font-weight: 700;
-        color: var(--primary);
-        margin-top: 15px;
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const resultId = "{{ result.id }}";
+        
+        // Function to parse basic markdown to HTML
+        function parseMarkdown(text) {
+            let html = text.replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>');
+            html = html.replace(/\\n/g, '<br>');
+            return html;
+        }
+
+        // Call the API
+        fetch(`/api/analyze-test/${resultId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Hide loader
+                document.getElementById('ai-loader-container').style.display = 'none';
+                
+                // Set text and show result
+                document.getElementById('recommendation-text').innerHTML = parseMarkdown(data.recommendation);
+                document.getElementById('ai-result-container').style.display = 'block';
+            } else {
+                alert("Xatolik yuz berdi: " + data.message);
+                document.getElementById('ai-loader-container').innerHTML = "<p style='color:red;'>Tahlil qilishda xatolik yuz berdi. Iltimos qayta urinib ko'ring.</p>";
+            }
+        })
+        .catch(err => {
+            console.error("Fetch error:", err);
+            document.getElementById('ai-loader-container').innerHTML = "<p style='color:red;'>Tarmoq xatosi. Iltimos sahifani yangilang.</p>";
+        });
+    });
+</script>
 {% endblock %}

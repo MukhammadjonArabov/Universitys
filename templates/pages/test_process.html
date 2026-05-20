@@ -112,17 +112,21 @@
     .option-item {
         display: flex;
         align-items: center;
-        padding: 15px 20px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 2px solid transparent;
-        border-radius: 12px;
+        padding: 18px 25px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255,255,255,0.05);
+        border-radius: 15px;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
     }
 
     .option-item:hover {
-        background: rgba(var(--primary-rgb), 0.1);
-        border-color: var(--primary);
+        background: rgba(var(--primary-rgb), 0.08);
+        border-color: rgba(var(--primary-rgb), 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.05);
     }
 
     .option-item input {
@@ -130,18 +134,22 @@
     }
 
     .option-item .option-text {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         font-weight: 500;
+        color: var(--text-primary);
+        transition: all 0.3s;
     }
 
     .option-item input:checked+.option-text {
-        color: var(--primary);
+        color: var(--gold);
         font-weight: 700;
     }
 
     .option-item:has(input:checked) {
-        border-color: var(--primary);
-        background: rgba(var(--primary-rgb), 0.15);
+        border-color: var(--gold);
+        background: rgba(255, 215, 0, 0.05);
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
 </style>
 

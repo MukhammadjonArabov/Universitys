@@ -41,8 +41,8 @@ class UserTestResultAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'telegram_id', 'phone_number', 'verification_code')
-    search_fields = ('user__username', 'telegram_id', 'phone_number')
+    list_display = ('user', 'phone_number')
+    search_fields = ('user__username', 'phone_number')
 
 
 @admin.register(Region)
