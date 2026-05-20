@@ -1,14 +1,14 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "layouts/base.html" %}
+{% load static i18n %}
 
-{% block title %}Qo'shimcha manbalar - UzUniversitet{% endblock %}
+{% block title %}Qo'shimcha manbalar - UzOTM{% endblock %}
 
 {% block content %}
 <section class="page-header container">
     <div>
-        <p class="eyebrow"><i class="fas fa-link"></i> Manbalar</p>
-        <h2>Qo‘shimcha manbalar</h2>
-        <p class="muted">O‘zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar.</p>
+        <p class="eyebrow"><i class="fas fa-link"></i> {% trans "Manbalar" %}</p>
+        <h2>{% trans "Qo‘shimcha manbalar" %}</h2>
+        <p class="muted">{% trans "O‘zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar." %}</p>
     </div>
 </section>
 
@@ -27,7 +27,7 @@
                     <p class="muted">{{ resource.description }}</p>
                     {% endif %}
                     <div class="card-footer-simple mt-auto">
-                        <span class="text-primary font-bold">O'tish <i class="fas fa-external-link-alt ml-1"></i></span>
+                        <span class="text-primary font-bold">{% trans "O'tish" %} <i class="fas fa-external-link-alt ml-1"></i></span>
                     </div>
                 </div>
             </article>
@@ -37,8 +37,8 @@
     {% else %}
     <div class="empty-state card glass">
         <i class="fas fa-circle-exclamation"></i>
-        <h3>Manbalar mavjud emas</h3>
-        <p class="muted">Tez orada bu yerda foydali havolalar paydo bo'ladi.</p>
+        <h3>{% trans "Manbalar mavjud emas" %}</h3>
+        <p class="muted">{% trans "Tez orada bu yerda foydali havolalar paydo bo'ladi." %}</p>
     </div>
     {% endif %}
 </section>

@@ -1,7 +1,7 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "layouts/base.html" %}
+{% load static i18n %}
 
-{% block title %}{{ university.name }} - Tafsilot{% endblock %}
+{% block title %}{{ university.name }} - {% trans "Tafsilot" %}{% endblock %}
 
 {% block extra_head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
@@ -26,7 +26,7 @@
             {% endif %}
         </div>
         <div class="detail-hero-body">
-            <p class="eyebrow"><i class="fas fa-university"></i> Universitet</p>
+            <p class="eyebrow"><i class="fas fa-university"></i> {% trans "Universitet" %}</p>
             <h1>{{ university.name }}</h1>
             <div class="detail-grid">
                 <div><i class="fas fa-location-dot"></i> {{ university.region.name }}</div>
@@ -44,8 +44,8 @@
 <section class="container section">
     <div class="section-header">
         <div>
-            <p class="eyebrow"><i class="fas fa-map"></i> Joylashuv</p>
-            <h3>Xaritada universitet</h3>
+            <p class="eyebrow"><i class="fas fa-map"></i> {% trans "Joylashuv" %}</p>
+            <h3>{% trans "Xaritada universitet" %}</h3>
         </div>
     </div>
     <div id="detail-map"></div>
@@ -55,9 +55,8 @@
 
 
 <section class="container section">
-    <a class="btn btn-ghost" href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Orqaga</a>
-    <a class="btn btn-primary" href="{% url 'university:universities' %}"><i class="fas fa-list"></i> Universitetlar
-        ro‘yxati</a>
+    <a class="btn btn-ghost" href="javascript:history.back()"><i class="fas fa-arrow-left"></i> {% trans "Orqaga" %}</a>
+    <a class="btn btn-primary" href="{% url 'university:universities' %}"><i class="fas fa-list"></i> {% trans "Universitetlar ro‘yxati" %}</a>
 </section>
 {% endblock %}
 

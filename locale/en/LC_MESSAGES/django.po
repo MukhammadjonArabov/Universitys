@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2025-01-01 00:00+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English (http://www.transifex.com/projects/p/django-cms/language/en/)\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Bosh sahifa"
@@ -38,3 +38,84 @@ msgstr "Welcome!"
 
 msgid "Barcha huquqlar himoyalangan."
 msgstr "All rights reserved."
+
+msgid "Universitetlar ro‘yxati"
+msgstr "List of Universities"
+
+msgid "Viloyat bo‘yicha filtrlash va tezkor qidiruv."
+msgstr "Filter by region and quick search."
+
+msgid "Qidirish (nom, email, sayt, manzil)"
+msgstr "Search (name, email, site, address)"
+
+msgid "Qidirish"
+msgstr "Search"
+
+msgid "Natija topilmadi"
+msgstr "No results found"
+
+msgid "Qidiruv yoki filterni o‘zgartirib ko‘ring."
+msgstr "Try changing your search or filter."
+
+msgid "Oldingi"
+msgstr "Previous"
+
+msgid "Keyingi"
+msgstr "Next"
+
+msgid "Sahifa"
+msgstr "Page"
+
+msgid "Barchasi"
+msgstr "All"
+
+msgid "Qo‘shimcha manbalar"
+msgstr "Additional Resources"
+
+msgid ""
+"O‘zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar."
+msgstr ""
+"Useful links about universities and the education system in Uzbekistan."
+
+msgid "Manbalar mavjud emas"
+msgstr "No resources available"
+
+msgid "Tez orada bu yerda foydali havolalar paydo bo'ladi."
+msgstr "Useful links will appear here soon."
+
+msgid "O'tish"
+msgstr "Go"
+
+msgid "Tafsilot"
+msgstr "Details"
+
+msgid "Universitet"
+msgstr "University"
+
+msgid "Joylashuv"
+msgstr "Location"
+
+msgid "Xaritada universitet"
+msgstr "University on the map"
+
+msgid "Orqaga"
+msgstr "Back"
+
+msgid "O'zbekistonning eng yaxshi universitetlari"
+msgstr "Best universities in Uzbekistan"
+
+msgid ""
+"Kelajagingiz uchun eng to'g'ri tanlovni biz bilan qiling. Minglab "
+"imkoniyatlar, barcha Oliy ta'lim muassasalari bir joyda."
+msgstr ""
+"Make the right choice for your future with us. Thousands of opportunities, "
+"all higher education institutions in one place."
+
+msgid "Universitetlarni izlash"
+msgstr "Search universities"
+
+msgid "Xaritada ko'rish"
+msgstr "View on map"
+
+msgid "Hududlar"
+msgstr "Regions"

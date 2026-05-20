@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "layouts/base.html" %}
+{% load static i18n %}
 
 {% block title %}Bosh sahifa - Universitet{% endblock %}
 
@@ -8,42 +8,64 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="container hero-content">
-        <div class="hero-text">
-            <h2 class="typing-text">
-                <span id="typing-text-1"></span><span class="typing-cursor">|</span>
-            </h2>
-            <div class="hero-actions">
-                <a href="{% url 'university:universities' %}" class="btn btn-primary">Batafsil ko‘rish</a>
-                <a href="#map" class="btn btn-ghost">Xaritada ko‘rish</a>
+<section class="hero-section" style="background-image: url('{% static 'logo/students_image_menu.jpg' %}'); background-size: cover; background-position: center; position: relative;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(10, 15, 30, 0.85) 0%, rgba(21, 26, 48, 0.95) 100%); z-index: 1;"></div>
+    
+    <div class="container hero-content text-center" style="position: relative; z-index: 2; width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 5rem;">
+        <div class="badge" style="margin-bottom: 2rem;">
+            <i class="fas fa-star" style="color: var(--gold);"></i> 
+            <span style="color: var(--text-primary); margin-left: 8px;">{% trans "O'zbekistonning eng yaxshi universitetlari" %}</span>
+        </div>
+        
+        <h1 class="animate-title" style="font-size: 5rem; margin-bottom: 1rem;">
+            <span class="gradient-text">UzOTM</span>
+        </h1>
+        
+        <h2 class="typing-text mt-3" style="font-size: 2rem; min-height: 40px; margin-bottom: 2rem;">
+            <span id="typing-text-1"></span><span class="typing-cursor">|</span>
+        </h2>
+        
+        <p class="hero-description muted" style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 3rem;">
+            {% trans "Kelajagingiz uchun eng to'g'ri tanlovni biz bilan qiling. Minglab imkoniyatlar, barcha Oliy ta'lim muassasalari bir joyda." %}
+        </p>
+        
+        <div class="hero-actions" style="margin-bottom: 4rem;">
+            <a href="{% url 'university:universities' %}" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem; border-radius: 50px;">
+                <i class="fas fa-search"></i> {% trans "Universitetlarni izlash" %}
+            </a>
+            <a href="#map" class="btn btn-ghost" style="padding: 1rem 2rem; font-size: 1.1rem; border-radius: 50px;">
+                <i class="fas fa-map-marked-alt"></i> {% trans "Xaritada ko'rish" %}
+            </a>
+        </div>
+        
+        <div class="hero-stats" style="display: flex; gap: 2rem; justify-content: center;">
+            <div class="stat card glass" style="padding: 1.5rem 3rem; text-align: center; border-radius: 20px;">
+                <span class="stat-value" style="display: block; font-size: 2.5rem; font-weight: 800; color: var(--gold);">{{ universities_count }}</span>
+                <span class="stat-label" style="color: var(--text-secondary); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;">{% trans "Universitetlar" %}</span>
+            </div>
+            <div class="stat card glass" style="padding: 1.5rem 3rem; text-align: center; border-radius: 20px;">
+                <span class="stat-value" style="display: block; font-size: 2.5rem; font-weight: 800; color: var(--electric-blue);">14</span>
+                <span class="stat-label" style="color: var(--text-secondary); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;">{% trans "Hududlar" %}</span>
             </div>
         </div>
-        <div class="hero-image-wrapper">
-            <div class="hero-image card glass">
-                <img src="{% static 'logo/students_image_menu.jpg' %}" alt="Universitet binosi">
-            </div>
-            <div class="hero-stats">
-                <div class="stat card glass">
-                    <span class="stat-value">{{ universities_count }}</span>
-                    <span class="stat-label">Universitetlar</span>
-                </div>
-            </div>
-        </div>
+    </div>
+    
+    <div class="scroll-indicator" style="bottom: 20px;">
+        <a href="#features"><i class="fas fa-chevron-down"></i></a>
     </div>
 </section>
 
-<section class="section container features-grid">
-    <div class="feature-card">
-        <div class="icon-circle"><i class="fas fa-university"></i></div>
-        <h3>Universitetlar</h3>
-        <p>O‘zbekiston bo‘ylab barcha universitetlar ro‘yxati va tafsilotlari.</p>
+<section id="features" class="section container features-grid" style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+    <div class="feature-card card glass" style="flex: 1; min-width: 300px; max-width: 500px; padding: 2.5rem; text-align: center; border-radius: var(--radius-lg);">
+        <div class="icon-circle" style="font-size: 3rem; color: var(--gold); margin-bottom: 1.5rem;"><i class="fas fa-university"></i></div>
+        <h3 style="margin-bottom: 1rem;">{% trans "Universitetlar" %}</h3>
+        <p class="muted">{% trans "O‘zbekiston bo‘ylab barcha universitetlar ro‘yxati va tafsilotlari." %}</p>
     </div>
 
-    <div class="feature-card">
-        <div class="icon-circle"><i class="fas fa-map-location-dot"></i></div>
-        <h3>Xarita</h3>
-        <p>Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko‘ring.</p>
+    <div class="feature-card card glass" style="flex: 1; min-width: 300px; max-width: 500px; padding: 2.5rem; text-align: center; border-radius: var(--radius-lg);">
+        <div class="icon-circle" style="font-size: 3rem; color: var(--electric-blue); margin-bottom: 1.5rem;"><i class="fas fa-map-location-dot"></i></div>
+        <h3 style="margin-bottom: 1rem;">{% trans "Xarita" %}</h3>
+        <p class="muted">{% trans "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko‘ring." %}</p>
     </div>
 
 </section>
@@ -68,7 +90,7 @@
 <script>
     // Typing animation - continuously types and deletes
     (function () {
-        const text1 = "Xush kelibsiz! Universitetlarni kashf qiling";
+        const text1 = "{% trans 'Xush kelibsiz! Universitetlarni kashf qiling'|escapejs %}";
         const typingElement = document.getElementById("typing-text-1");
         if (typingElement) {
             let index = 0;

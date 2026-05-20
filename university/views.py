@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.translation import get_language
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -19,6 +20,15 @@ from .models import (
     UserTestResult,
     AdditionalResource,
 )
+
+def get_current_language(request):
+    lang = getattr(request, 'LANGUAGE_CODE', None) or get_language()
+    return lang if lang in ('uz', 'ru', 'en') else 'uz'
+
+
+def get_localized_field(base_name, lang):
+    return f"{base_name}_{lang}"
+
 
 # 20 Static Psychological Questions
 STATIC_QUESTIONS = [
@@ -229,10 +239,13 @@ def home_view(request):
     """
     Homepage with hero + Uzbekistan map showing universities with coordinates.
     """
+    lang = get_current_language(request)
+    name_field = get_localized_field("name", lang)
+
     universities_with_geo = (
         University.objects.filter(latitude__isnull=False, longitude__isnull=False)
         .select_related("region")
-        .order_by("name")
+        .order_by(name_field)
     )
 
     map_data = []
@@ -254,7 +267,7 @@ def home_view(request):
 
     return render(
         request,
-        "home.html",
+        "pages/home.html",
         {
             "map_data": map_data,
             "universities_geo_count": len(map_data),
@@ -267,34 +280,39 @@ def universities_list_view(request):
     """
     Universities list with region filter and text search.
     """
+    lang = get_current_language(request)
+    name_field = get_localized_field("name", lang)
+    address_field = get_localized_field("postal_address", lang)
+    region_name_field = get_localized_field("name", lang)
+
     search_query = request.GET.get("search", "").strip()
     region_id = request.GET.get("region")
 
-    queryset = University.objects.select_related("region").all().order_by("name")
+    queryset = University.objects.select_related("region").all().order_by(name_field)
 
     if region_id and region_id.isdigit():
         queryset = queryset.filter(region_id=int(region_id))
 
     if search_query:
         queryset = queryset.filter(
-            Q(name__icontains=search_query)
+            Q(**{f"{name_field}__icontains": search_query})
             | Q(email__icontains=search_query)
             | Q(website__icontains=search_query)
-            | Q(postal_address__icontains=search_query)
+            | Q(**{f"{address_field}__icontains": search_query})
         )
 
     paginator = Paginator(queryset, 9)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    regions = Region.objects.order_by("name")
+    regions = Region.objects.order_by(region_name_field)
     active_region = None
     if region_id and region_id.isdigit():
         active_region = regions.filter(id=int(region_id)).first()
 
     return render(
         request,
-        "universities.html",
+        "pages/universities.html",
         {
             "regions": regions,
             "active_region": active_region,
@@ -324,7 +342,7 @@ def university_detail_view(request, pk):
 
     return render(
         request,
-        "university_detail.html",
+        "pages/university_detail.html",
         {
             "university": university,
             "map_point": map_point,
@@ -336,22 +354,24 @@ def resources_list_view(request):
     """
     List of additional resources/links.
     """
-    resources = AdditionalResource.objects.order_by("title")
-    return render(request, "resources.html", {"resources": resources})
+    lang = get_current_language(request)
+    title_field = get_localized_field("title", lang)
+    resources = AdditionalResource.objects.order_by(title_field)
+    return render(request, "pages/resources.html", {"resources": resources})
 
 
 
 
 def test_intro_view(request):
     """Intro page for the psychological test."""
-    return render(request, "test_intro.html")
+    return render(request, "pages/test_intro.html")
 
 
 @login_required(login_url="/verify-code/")
 def test_process_view(request):
     """The psychological test process page with 20 static questions and timer."""
     # Use static questions instead of DB
-    return render(request, "test_process.html", {"questions": STATIC_QUESTIONS})
+    return render(request, "pages/test_process.html", {"questions": STATIC_QUESTIONS})
 
 
 @login_required
@@ -416,7 +436,7 @@ def submit_test(request):
 def test_result_view(request, pk):
     """Display test result."""
     result = get_object_or_404(UserTestResult, pk=pk, user=request.user)
-    return render(request, "test_result.html", {"result": result})
+    return render(request, "pages/test_result.html", {"result": result})
 
 
 def verify_code_view(request):
@@ -438,7 +458,7 @@ def verify_code_view(request):
         else:
             error = "Noto'g'ri kod kiritildi."
             
-    return render(request, "login_telegram.html", {
+    return render(request, "auth/login_telegram.html", {
         "error": error,
         "bot_username": settings.BOT_USERNAME
     })

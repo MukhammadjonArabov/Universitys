@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language
 
 class BaseModel(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
@@ -28,6 +29,10 @@ class Region(BaseModel):
 
     def __str__(self):
         return self.name_uz
+
+    @property
+    def name(self):
+        return self.get_name(get_language())
 
     def get_name(self, lang='uz'):
         if lang == 'ru':
@@ -64,6 +69,14 @@ class University(BaseModel):
     def __str__(self):
         return self.name_uz
 
+    @property
+    def name(self):
+        return self.get_name(get_language())
+
+    @property
+    def postal_address(self):
+        return self.get_address(get_language())
+
     def get_name(self, lang='uz'):
         if lang == 'ru':
             return self.name_ru or self.name_uz
@@ -94,6 +107,10 @@ class Direction(BaseModel):
 
     def __str__(self):
         return self.name_uz
+
+    @property
+    def name(self):
+        return self.get_name(get_language())
 
     def get_name(self, lang='uz'):
         if lang == 'ru':

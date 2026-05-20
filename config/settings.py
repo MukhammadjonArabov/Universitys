@@ -173,7 +173,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BOT_TOKEN = env("BOT_TOKEN", default="")
-BOT_USERNAME = env("BOT_USERNAME", default="UzUniversitetBot")
+BOT_USERNAME = env("BOT_USERNAME", default="UzOTMBot")
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",

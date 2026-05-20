@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2025-01-01 00:00+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/django-cms/language/ru/)\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "Bosh sahifa"
@@ -38,3 +38,83 @@ msgstr "Добро пожаловать!"
 
 msgid "Barcha huquqlar himoyalangan."
 msgstr "Все права защищены."
+
+msgid "Universitetlar ro‘yxati"
+msgstr "Список университетов"
+
+msgid "Viloyat bo‘yicha filtrlash va tezkor qidiruv."
+msgstr "Фильтрация по регионам и быстрый поиск."
+
+msgid "Qidirish (nom, email, sayt, manzil)"
+msgstr "Поиск (имя, email, сайт, адрес)"
+
+msgid "Qidirish"
+msgstr "Поиск"
+
+msgid "Natija topilmadi"
+msgstr "Результатов не найдено"
+
+msgid "Qidiruv yoki filterni o‘zgartirib ko‘ring."
+msgstr "Попробуйте изменить поиск или фильтр."
+
+msgid "Oldingi"
+msgstr "Предыдущий"
+
+msgid "Keyingi"
+msgstr "Следующий"
+
+msgid "Sahifa"
+msgstr "Страница"
+
+msgid "Barchasi"
+msgstr "Все"
+
+msgid "Qo‘shimcha manbalar"
+msgstr "Дополнительные ресурсы"
+
+msgid ""
+"O‘zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar."
+msgstr "Полезные ссылки об университетах и системе образования в Узбекистане."
+
+msgid "Manbalar mavjud emas"
+msgstr "Ресурсов нет"
+
+msgid "Tez orada bu yerda foydali havolalar paydo bo'ladi."
+msgstr "Скоро здесь появятся полезные ссылки."
+
+msgid "O'tish"
+msgstr "Перейти"
+
+msgid "Tafsilot"
+msgstr "Детали"
+
+msgid "Universitet"
+msgstr "Университет"
+
+msgid "Joylashuv"
+msgstr "Расположение"
+
+msgid "Xaritada universitet"
+msgstr "Университет на карте"
+
+msgid "Orqaga"
+msgstr "Назад"
+
+msgid "O'zbekistonning eng yaxshi universitetlari"
+msgstr "Лучшие университеты Узбекистана"
+
+msgid ""
+"Kelajagingiz uchun eng to'g'ri tanlovni biz bilan qiling. Minglab "
+"imkoniyatlar, barcha Oliy ta'lim muassasalari bir joyda."
+msgstr ""
+"Сделайте правильный выбор для своего будущего с нами. Тысячи возможностей, "
+"все высшие учебные заведения в одном месте."
+
+msgid "Universitetlarni izlash"
+msgstr "Поиск университетов"
+
+msgid "Xaritada ko'rish"
+msgstr "Посмотреть на карте"
+
+msgid "Hududlar"
+msgstr "Регионы"

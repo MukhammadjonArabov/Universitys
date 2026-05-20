@@ -1,8 +1,9 @@
+{% load i18n %}
 <div class="regions-filter-container">
     <div class="regions-scroll">
         <a class="region-pill {% if not selected_region_id %}active{% endif %}" 
            href="?{% if search_query %}search={{ search_query }}{% endif %}">
-            Barchasi
+            {% trans "Barchasi" %}
         </a>
         {% for region in regions %}
             <a class="region-pill {% if selected_region_id|default:'' == region.id|stringformat:'s' %}active{% endif %}"

@@ -1,12 +1,12 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="{% get_current_language %}">
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}UzUniversitets{% endblock %}</title>
-    {% load static %}
-    {% load i18n %}
+    <title>{% block title %}UzOTM{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="shortcut icon" href="{% static 'logo/logo_univesity.png' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -26,7 +26,7 @@
     <header class="header">
         <div class="container navbar">
             <a href="{% url 'university:home' %}" class="logo">
-                <i class="fas fa-graduation-cap"></i> UzUniversitet
+                <i class="fas fa-graduation-cap"></i> UzOTM
             </a>
             <nav class="nav-links">
                 <a href="{% url 'university:home' %}" class="{% if request.path == '/' %}active{% endif %}">{% trans "Bosh sahifa" %}</a>
@@ -37,7 +37,7 @@
 
                 <a href="{% url 'university:test_intro' %}"
                     class="{% if '/test' in request.path %}active{% endif %}">{% trans "Yoʻnalishni aniqlash" %}</a>
-                <a href="#contact" class="disabled-link">{% trans "Kontakt" %}</a>
+
             </nav>
             <div class="nav-actions">
                 <!-- Language Switcher -->
@@ -64,21 +64,7 @@
         </div>
     </header>
 
-    <!-- KATTA RASIM + ANIMATSIYALI MATN -->
-    {% if request.path != '/' %}
-    <section class="hero-banner">
-        <img src="{% static 'logo/students_image_menu.jpg' %}" alt="Talabalar" class="hero-banner-img">
 
-        <!-- Qorong'i qoplama -->
-        <div class="hero-overlay"></div>
-
-        <!-- Animatsiyali matn -->
-        <div class="hero-text">
-            <h1 class="animate-title">{% trans "Xush kelibsiz!" %}</h1>
-            <p class="animate-subtitle">{% trans "O'zbekiston universitetlari haqida to'liq ma'lumot" %}</p>
-        </div>
-    </section>
-    {% endif %}
 
     <!-- Asosiy kontent -->
     <main class="main-content">
@@ -89,7 +75,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>© 2025 UzUniversitets. {% trans "Barcha huquqlar himoyalangan." %}</p>
+            <p>© 2025 UzOTM. {% trans "Barcha huquqlar himoyalangan." %}</p>
         </div>
     </footer>
 
