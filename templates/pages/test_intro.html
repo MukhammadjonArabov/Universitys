@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
-{% load static %}
+{% load static i18n socialaccount %}
 
-{% block title %}Yo'nalishni aniqlash - Test{% endblock %}
+{% block title %}{% trans "Yo'nalishni aniqlash" %} - {% trans "Test" %}{% endblock %}
 
 {% block content %}
 <section class="section container">
@@ -35,10 +35,10 @@
 
         <div class="test-actions">
             {% if user.is_authenticated %}
-            <a href="{% url 'university:test_process' %}" class="btn btn-primary btn-lg">Testni boshlash</a>
+            <a href="{% url 'university:test_process' %}" class="btn btn-primary btn-lg">{% trans "Testni boshlash" %}</a>
             {% else %}
-            <a href="{% url 'university:login' %}" class="btn btn-primary btn-lg">Boshlash (Kirish)</a>
-            <p class="mt-3"><small>Tizimga kirish uchun Google hisobingizdan foydalaning.</small></p>
+            <a href="{% provider_login_url 'google' %}" class="btn btn-primary btn-lg">{% trans "Google orqali kirish va testni boshlash" %}</a>
+            <p class="mt-3"><small>{% trans "Agar ro'yxatdan o'tmagan bo'lsangiz, Gmail hisobingiz bilan tezda tizimga kiring." %}</small></p>
             {% endif %}
         </div>
     </div>

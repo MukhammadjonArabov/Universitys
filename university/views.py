@@ -367,7 +367,7 @@ def test_intro_view(request):
     return render(request, "pages/test_intro.html")
 
 
-@login_required(login_url="/verify-code/")
+@login_required
 def test_process_view(request):
     """The psychological test process page with 20 static questions and timer."""
     # Use static questions instead of DB
@@ -467,7 +467,14 @@ IMPORTANT: You MUST write your entire response in {target_lang} language!
         return JsonResponse({"status": "success", "recommendation": recommendation_text})
     except Exception as e:
         print("Gemini API Error:", e)
-        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+        error_message = str(e)
+        if '503' in error_message or 'UNAVAILABLE' in error_message.upper():
+            user_message = "Gemini xizmati hozir band yoki talab ko‘p. Iltimos, birozdan keyin qayta urinib ko‘ring."
+            status_code = 503
+        else:
+            user_message = "Gemini API xatosi yuz berdi: " + error_message
+            status_code = 500
+        return JsonResponse({"status": "error", "message": user_message}, status=status_code)
 
 def login_view(request):
     """Render the beautifully designed Google login page."""

@@ -30,7 +30,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -82,6 +82,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
+                'django.template.context_processors.csrf',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
@@ -214,8 +215,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
+SITE_DOMAIN = env('SITE_DOMAIN', default='localhost:8000')
+SITE_NAME = env('SITE_NAME', default='Universitys Local')
 
 LOGIN_REDIRECT_URL = '/test/process/'
+LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
@@ -234,10 +238,5 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
-        'APP': {
-            'client_id': GOOGLE_CLIENT_ID,
-            'secret': GOOGLE_CLIENT_SECRET,
-            'key': ''
-        }
     }
 }

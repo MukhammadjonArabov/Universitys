@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Natija - Yo'nalishni aniqlash{% endblock %}
+{% block title %}{% trans "Natija" %} - {% trans "Yo'nalishni aniqlash" %}{% endblock %}
 
 {% block content %}
 <section class="section container" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center;">
@@ -20,7 +20,8 @@
             <!-- Loader Container -->
             <div id="ai-loader-container" style="margin: 40px 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                 <div class="ai-spinner"></div>
-                <h4 style="margin-top: 20px; color: var(--primary); font-weight: 600;" class="loading-text">Gemini AI natijalaringizni tekshirmoqda...</h4>
+                <h4 style="margin-top: 20px; color: var(--primary); font-weight: 600;" class="loading-text">{% trans "Gemini AI javoblaringizni tahlil qilmoqda..." %}</h4>
+                <p style="margin-top: 10px; color: var(--text-primary);">{% trans "Javoblaringiz Gemini AI tomonidan qayta ishlanmoqda, iltimos kuting." %}</p>
             </div>
 
             <!-- Result Container (Hidden initially) -->
@@ -32,7 +33,7 @@
                     </div>
                     
                     <div id="recommendation-text" style="font-size: 1.1rem; line-height: 1.8; color: var(--text-primary);">
-                        <!-- AI text will go here -->
+                        <!-- Gemini dan kelgan xabar shu yerda chiqadi -->
                     </div>
                 </div>
 
@@ -115,14 +116,24 @@
         }
 
         // Call the API
-        fetch(`/api/analyze-test/${resultId}/`, {
+        fetch("{% url 'university:analyze_test_api' result.id %}", {
             method: 'POST',
+            credentials: 'same-origin',
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
                 'Content-Type': 'application/json'
             }
         })
-        .then(response => response.json())
+        .then(async response => {
+            const contentType = response.headers.get('Content-Type') || '';
+            if (!response.ok) {
+                const errorMessage = contentType.includes('application/json')
+                    ? (await response.json()).message
+                    : await response.text();
+                throw new Error(errorMessage || `HTTP ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.status === 'success') {
                 // Hide loader
@@ -132,13 +143,12 @@
                 document.getElementById('recommendation-text').innerHTML = parseMarkdown(data.recommendation);
                 document.getElementById('ai-result-container').style.display = 'block';
             } else {
-                alert("Xatolik yuz berdi: " + data.message);
-                document.getElementById('ai-loader-container').innerHTML = "<p style='color:red;'>Tahlil qilishda xatolik yuz berdi. Iltimos qayta urinib ko'ring.</p>";
+                document.getElementById('ai-loader-container').innerHTML = "<p style='color:red;'>" + data.message + "</p>";
             }
         })
         .catch(err => {
             console.error("Fetch error:", err);
-            document.getElementById('ai-loader-container').innerHTML = "<p style='color:red;'>Tarmoq xatosi. Iltimos sahifani yangilang.</p>";
+            document.getElementById('ai-loader-container').innerHTML = "<p style='color:red;'>" + (err.message || 'Tarmoq xatosi. Iltimos sahifani yangilang.') + "</p>";
         });
     });
 </script>
