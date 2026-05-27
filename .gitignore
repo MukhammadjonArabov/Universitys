@@ -22,6 +22,18 @@ db.sqlite3
 staticfiles/
 media/
 .env
+*.log
+local_settings.py
+
+# Compiled translations (generated — do not commit)
+locale/*/LC_MESSAGES/django.mo
+
+# Testing & Coverage
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+*.cover
 
 # IDEs/Editors
 .vscode/
@@ -31,5 +43,7 @@ media/
 .DS_Store
 Thumbs.db
 
-# Project specific
-*.log
+# Build artifacts
+dist/
+build/
+*.egg-info/

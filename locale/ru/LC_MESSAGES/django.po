@@ -118,3 +118,214 @@ msgstr "Посмотреть на карте"
 
 msgid "Hududlar"
 msgstr "Регионы"
+
+msgid "O'zbekiston xaritasi"
+msgstr "Карта Узбекистана"
+
+msgid "Universitetlar joylashuvi"
+msgstr "Расположение университетов"
+
+msgid "Geo ma'lumotga ega universitetlarni interaktiv ko'rinishda."
+msgstr "Университеты с геоданными в интерактивном виде."
+
+msgid "Ro'yxatga o'tish"
+msgstr "Перейти к списку"
+
+msgid "Batafsil"
+msgstr "Подробнее"
+
+msgid "Yo'nalishni aniqlash"
+msgstr "Определение направления"
+
+msgid "Test"
+msgstr "Тест"
+
+msgid "Test jarayoni"
+msgstr "Процесс теста"
+
+msgid "Kasbiy yo'nalishingizni aniqlang"
+msgstr "Определите своё профессиональное направление"
+
+msgid ""
+"Ushbu psixologik test sizning qiziqishlaringiz va qobiliyatlaringiz qaysi "
+"sohalarga ko'proq mos kelishini aniqlashga yordam beradi."
+msgstr ""
+"Этот психологический тест поможет определить, каким сферам больше всего "
+"соответствуют ваши интересы и способности."
+
+msgid "20 ta savol"
+msgstr "20 вопросов"
+
+msgid "30 daqiqa vaqt"
+msgstr "30 минут времени"
+
+msgid "Aniq natija"
+msgstr "Точный результат"
+
+msgid ""
+"Testni boshlash uchun tizimga kirgan bo'lishingiz kerak. Agar ro'yxatdan "
+"o'tmagan bo'lsangiz, Google hisobingiz orqali tezda ro'yxatdan o'tishingiz "
+"mumkin."
+msgstr ""
+"Для начала теста необходимо войти в систему. Если вы не зарегистрированы, вы"
+" можете быстро зарегистрироваться через аккаунт Google."
+
+msgid "Testni boshlash"
+msgstr "Начать тест"
+
+msgid "Google orqali kirish va testni boshlash"
+msgstr "Войти через Google и начать тест"
+
+msgid ""
+"Agar ro'yxatdan o'tmagan bo'lsangiz, Gmail hisobingiz bilan tezda tizimga "
+"kiring."
+msgstr "Если вы не зарегистрированы, быстро войдите с аккаунтом Gmail."
+
+msgid "Savol"
+msgstr "Вопрос"
+
+msgid "Oldingisi"
+msgstr "Предыдущий"
+
+msgid "Yakunlash"
+msgstr "Завершить"
+
+msgid "Vaqt tugadi! Natijalar hisoblanmoqda..."
+msgstr "Время вышло! Результаты подсчитываются..."
+
+msgid "Xatolik: "
+msgstr "Ошибка: "
+
+msgid "Tarmoq xatosi. Iltimos sahifani yangilang."
+msgstr "Ошибка сети. Пожалуйста, обновите страницу."
+
+msgid "Natija"
+msgstr "Результат"
+
+msgid "Tabriklaymiz!"
+msgstr "Поздравляем!"
+
+msgid "Test muvaffaqiyatli yakunlandi. AI natijalaringizni tahlil qilmoqda..."
+msgstr "Тест успешно завершён. AI анализирует ваши результаты..."
+
+msgid "Gemini AI tahlil qilmoqda..."
+msgstr "Gemini AI анализирует..."
+
+msgid "Javoblaringiz qayta ishlanmoqda. Iltimos kuting."
+msgstr "Ваши ответы обрабатываются. Пожалуйста, подождите."
+
+msgid "Kasbiy yo'nalish"
+msgstr "Профессиональное направление"
+
+msgid "Kuchli tomonlar"
+msgstr "Сильные стороны"
+
+msgid "Tavsiya etilgan sohalar"
+msgstr "Рекомендуемые сферы"
+
+msgid "Universitetlar"
+msgstr "Университеты"
+
+msgid "Kasb tavsiflari"
+msgstr "Описание профессий"
+
+msgid "Shaxsiy maslahat"
+msgstr "Личный совет"
+
+msgid "AI Xulosasi"
+msgstr "Заключение AI"
+
+msgid "Universitetlarni ko'rish"
+msgstr "Просмотреть университеты"
+
+msgid "Testni qayta topshirish"
+msgstr "Пройти тест заново"
+
+msgid "Xatolik yuz berdi"
+msgstr "Произошла ошибка"
+
+msgid "Qayta urinish"
+msgstr "Повторить попытку"
+
+msgid "Tarmoq xatosi. Sahifani yangilang."
+msgstr "Ошибка сети. Обновите страницу."
+
+msgid "Natijalar qisman ko'rsatilmoqda."
+msgstr "Результаты отображаются частично."
+
+msgid "Gemini AI javoblaringizni tahlil qilmoqda..."
+msgstr "Gemini AI анализирует ваши ответы..."
+
+msgid "Javoblaringiz Gemini AI tomonidan qayta ishlanmoqda, iltimos kuting."
+msgstr "Ваши ответы обрабатываются Gemini AI, пожалуйста, подождите."
+
+msgid "Oxirgi natijamni ko'rish"
+msgstr "Посмотреть мой последний результат"
+
+msgid "Mavzuni almashtirish"
+msgstr "Сменить тему"
+
+msgid "Chiqish"
+msgstr "Выйти"
+
+msgid "Tizimga kirish"
+msgstr "Войти"
+
+msgid "Shaxsiyat va kuchli tomonlar"
+msgstr "Личность и сильные стороны"
+
+msgid "Kasbiy yo'nalishlar"
+msgstr "Карьерные направления"
+
+msgid "Universitet mutaxassisliklari"
+msgstr "Университетские специальности"
+
+msgid "Tayyorgarlik yo'l xaritasi"
+msgstr "Дорожная карта подготовки"
+
+msgid "Harakat rejasi"
+msgstr "План действий"
+
+msgid "Motivatsion xulosa"
+msgstr "Мотивационное резюме"
+
+msgid "Universitetlar ro'yxati"
+msgstr "Список университетов"
+
+msgid "Viloyat bo'yicha filtrlash va tezkor qidiruv."
+msgstr "Фильтр по регионам и быстрый поиск."
+
+msgid "Qidiruv yoki filterni o'zgartirib ko'ring."
+msgstr "Попробуйте изменить поиск или фильтр."
+
+msgid "Qo'shimcha manbalar"
+msgstr "Дополнительные ресурсы"
+
+msgid ""
+"O'zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar."
+msgstr "Полезные ссылки об университетах и системе образования Узбекистана."
+
+msgid "Universitet logosi"
+msgstr "Логотип университета"
+
+msgid "Universitet rasmi"
+msgstr "Изображение университета"
+
+msgid "Iltimos, barcha savollarga javob bering."
+msgstr "Пожалуйста, ответьте на все вопросы."
+
+msgid "O'zbekiston bo'ylab barcha universitetlar ro'yxati va tafsilotlari."
+msgstr "?????? ? ????????? ?????????? ?? ????????????? ???????????."
+
+msgid "AI yo'nalish testi"
+msgstr "AI-???? ???????????"
+
+msgid ""
+"Qiziqish va qobiliyatlaringiz asosida mos kasb hamda universitet "
+"yo'nalishini aniqlang."
+msgstr ""
+"?????????? ?????????? ????????? ? ??????????????? ??????????? ?? ?????? "
+"????????? ? ????????????."
+
+msgid "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."
+msgstr "?????????? ???????????? ? ??????????? ?? ????????????? ?????."

@@ -12,10 +12,10 @@ msgstr ""
 "PO-Revision-Date: 2025-01-01 00:00+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Uzbek (http://www.transifex.com/projects/p/django-cms/language/uz/)\n"
+"Language: uz\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uz\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "Bosh sahifa"
@@ -38,3 +38,75 @@ msgstr "Xush kelibsiz!"
 
 msgid "Barcha huquqlar himoyalangan."
 msgstr "Barcha huquqlar himoyalangan."
+
+msgid "Yo'nalishni aniqlash"
+msgstr "Yo'nalishni aniqlash"
+
+msgid "Mavzuni almashtirish"
+msgstr "Mavzuni almashtirish"
+
+msgid "Chiqish"
+msgstr "Chiqish"
+
+msgid "Tizimga kirish"
+msgstr "Tizimga kirish"
+
+msgid "Shaxsiyat va kuchli tomonlar"
+msgstr "Shaxsiyat va kuchli tomonlar"
+
+msgid "Kasbiy yo'nalishlar"
+msgstr "Kasbiy yo'nalishlar"
+
+msgid "Universitet mutaxassisliklari"
+msgstr "Universitet mutaxassisliklari"
+
+msgid "Tayyorgarlik yo'l xaritasi"
+msgstr "Tayyorgarlik yo'l xaritasi"
+
+msgid "Harakat rejasi"
+msgstr "Harakat rejasi"
+
+msgid "Motivatsion xulosa"
+msgstr "Motivatsion xulosa"
+
+msgid "Universitetlar ro'yxati"
+msgstr "Universitetlar ro'yxati"
+
+msgid "Viloyat bo'yicha filtrlash va tezkor qidiruv."
+msgstr "Viloyat bo'yicha filtrlash va tezkor qidiruv."
+
+msgid "Qidiruv yoki filterni o'zgartirib ko'ring."
+msgstr "Qidiruv yoki filterni o'zgartirib ko'ring."
+
+msgid "Qo'shimcha manbalar"
+msgstr "Qo'shimcha manbalar"
+
+msgid ""
+"O'zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar."
+msgstr ""
+"O'zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar."
+
+msgid "Universitet logosi"
+msgstr "Universitet logosi"
+
+msgid "Universitet rasmi"
+msgstr "Universitet rasmi"
+
+msgid "Iltimos, barcha savollarga javob bering."
+msgstr "Iltimos, barcha savollarga javob bering."
+
+msgid "O'zbekiston bo'ylab barcha universitetlar ro'yxati va tafsilotlari."
+msgstr "O'zbekiston bo'ylab barcha universitetlar ro'yxati va tafsilotlari."
+
+msgid "AI yo'nalish testi"
+msgstr "AI yo'nalish testi"
+
+msgid ""
+"Qiziqish va qobiliyatlaringiz asosida mos kasb hamda universitet "
+"yo'nalishini aniqlang."
+msgstr ""
+"Qiziqish va qobiliyatlaringiz asosida mos kasb hamda universitet "
+"yo'nalishini aniqlang."
+
+msgid "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."
+msgstr "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."

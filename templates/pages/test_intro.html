@@ -8,34 +8,37 @@
     <div class="test-card card glass">
         <div class="test-header">
             <i class="fas fa-brain fa-3x mb-3" style="color: var(--primary);"></i>
-            <h2>Kasbiy yo'nalishingizni aniqlang</h2>
-            <p class="muted">Ushbu psixologik test sizning qiziqishlaringiz va qobiliyatlaringiz qaysi sohalarga ko'proq
-                mos kelishini aniqlashga yordam beradi.</p>
+            <h2>{% trans "Kasbiy yo'nalishingizni aniqlang" %}</h2>
+            <p class="muted">{% trans "Ushbu psixologik test sizning qiziqishlaringiz va qobiliyatlaringiz qaysi sohalarga ko'proq mos kelishini aniqlashga yordam beradi." %}</p>
         </div>
 
         <div class="test-details">
             <div class="detail-item">
                 <i class="fas fa-question-circle"></i>
-                <span>20 ta savol</span>
+                <span>{% trans "20 ta savol" %}</span>
             </div>
             <div class="detail-item">
                 <i class="fas fa-clock"></i>
-                <span>30 daqiqa vaqt</span>
+                <span>{% trans "30 daqiqa vaqt" %}</span>
             </div>
             <div class="detail-item">
                 <i class="fas fa-check-circle"></i>
-                <span>Aniq natija</span>
+                <span>{% trans "Aniq natija" %}</span>
             </div>
         </div>
 
         <div class="test-info alert info">
-            <p><i class="fas fa-info-circle"></i> Testni boshlash uchun tizimga kirgan bo'lishingiz kerak. Agar
-                ro'yxatdan o'tmagan bo'lsangiz, Google hisobingiz orqali tezda ro'yxatdan o'tishingiz mumkin.</p>
+            <p><i class="fas fa-info-circle"></i> {% trans "Testni boshlash uchun tizimga kirgan bo'lishingiz kerak. Agar ro'yxatdan o'tmagan bo'lsangiz, Google hisobingiz orqali tezda ro'yxatdan o'tishingiz mumkin." %}</p>
         </div>
 
         <div class="test-actions">
             {% if user.is_authenticated %}
             <a href="{% url 'university:test_process' %}" class="btn btn-primary btn-lg">{% trans "Testni boshlash" %}</a>
+            {% if last_result %}
+            <a href="{% url 'university:test_result' last_result.id %}" class="btn btn-ghost btn-lg">
+                <i class="fas fa-history"></i> {% trans "Oxirgi natijamni ko'rish" %}
+            </a>
+            {% endif %}
             {% else %}
             <a href="{% provider_login_url 'google' %}" class="btn btn-primary btn-lg">{% trans "Google orqali kirish va testni boshlash" %}</a>
             <p class="mt-3"><small>{% trans "Agar ro'yxatdan o'tmagan bo'lsangiz, Gmail hisobingiz bilan tezda tizimga kiring." %}</small></p>
@@ -64,6 +67,7 @@
         justify-content: center;
         gap: 30px;
         margin: 40px 0;
+        flex-wrap: wrap;
     }
 
     .detail-item {
@@ -92,6 +96,23 @@
         padding: 15px 40px;
         font-size: 1.2rem;
         border-radius: 50px;
+    }
+
+    @media (max-width: 480px) {
+        .test-card {
+            padding: 1.5rem 1rem;
+            margin: 20px auto;
+        }
+        .test-header h2 {
+            font-size: 1.6rem;
+        }
+        .test-details {
+            gap: 15px;
+        }
+        .btn-lg {
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
     }
 </style>
 {% endblock %}

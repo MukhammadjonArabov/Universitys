@@ -13,6 +13,32 @@ class BaseModel(models.Model):
         abstract = True
         ordering = ['-created_date']
 
+    def get_translated_field(self, field_name: str, lang: str = None) -> str:
+        """
+        Dynamically gets a translated field value.
+        First tries the selected language field (e.g., name_ru).
+        Falls back to the default Uzbek field (e.g., name_uz).
+        """
+        if not lang:
+            lang = get_language() or 'uz'
+            
+        if lang not in ('uz', 'ru', 'en'):
+            lang = 'uz'
+        
+        # Try the localized field
+        localized_field = f"{field_name}_{lang}"
+        if hasattr(self, localized_field):
+            value = getattr(self, localized_field, '')
+            if value:
+                return value
+        
+        # Fallback to default (uz)
+        default_field = f"{field_name}_uz"
+        if hasattr(self, default_field):
+            return getattr(self, default_field, '')
+        
+        return ''
+
 
 class Region(BaseModel):
     # Uzbek
@@ -32,14 +58,10 @@ class Region(BaseModel):
 
     @property
     def name(self):
-        return self.get_name(get_language())
+        return self.get_translated_field('name')
 
-    def get_name(self, lang='uz'):
-        if lang == 'ru':
-            return self.name_ru or self.name_uz
-        elif lang == 'en':
-            return self.name_en or self.name_uz
-        return self.name_uz
+    def get_name(self, lang=None):
+        return self.get_translated_field('name', lang)
 
 
 class University(BaseModel):
@@ -71,25 +93,17 @@ class University(BaseModel):
 
     @property
     def name(self):
-        return self.get_name(get_language())
+        return self.get_translated_field('name')
 
     @property
     def postal_address(self):
-        return self.get_address(get_language())
+        return self.get_translated_field('postal_address')
 
-    def get_name(self, lang='uz'):
-        if lang == 'ru':
-            return self.name_ru or self.name_uz
-        elif lang == 'en':
-            return self.name_en or self.name_uz
-        return self.name_uz
+    def get_name(self, lang=None):
+        return self.get_translated_field('name', lang)
 
-    def get_address(self, lang='uz'):
-        if lang == 'ru':
-            return self.postal_address_ru or self.postal_address_uz
-        elif lang == 'en':
-            return self.postal_address_en or self.postal_address_uz
-        return self.postal_address_uz
+    def get_address(self, lang=None):
+        return self.get_translated_field('postal_address', lang)
 
 
 class Direction(BaseModel):
@@ -110,14 +124,10 @@ class Direction(BaseModel):
 
     @property
     def name(self):
-        return self.get_name(get_language())
+        return self.get_translated_field('name')
 
-    def get_name(self, lang='uz'):
-        if lang == 'ru':
-            return self.name_ru or self.name_uz
-        elif lang == 'en':
-            return self.name_en or self.name_uz
-        return self.name_uz
+    def get_name(self, lang=None):
+        return self.get_translated_field('name', lang)
 
 
 class Profile(BaseModel):
@@ -144,12 +154,12 @@ class TestQuestion(BaseModel):
     def __str__(self):
         return self.text_uz[:50]
 
-    def get_text(self, lang='uz'):
-        if lang == 'ru':
-            return self.text_ru or self.text_uz
-        elif lang == 'en':
-            return self.text_en or self.text_uz
-        return self.text_uz
+    @property
+    def text(self):
+        return self.get_translated_field('text')
+
+    def get_text(self, lang=None):
+        return self.get_translated_field('text', lang)
 
 
 class TestOption(BaseModel):
@@ -172,12 +182,12 @@ class TestOption(BaseModel):
     def __str__(self):
         return self.text_uz
 
-    def get_text(self, lang='uz'):
-        if lang == 'ru':
-            return self.text_ru or self.text_uz
-        elif lang == 'en':
-            return self.text_en or self.text_uz
-        return self.text_uz
+    @property
+    def text(self):
+        return self.get_translated_field('text')
+
+    def get_text(self, lang=None):
+        return self.get_translated_field('text', lang)
 
 
 class UserTestResult(BaseModel):
@@ -230,16 +240,16 @@ class AdditionalResource(BaseModel):
     def __str__(self):
         return self.title_uz
 
-    def get_title(self, lang='uz'):
-        if lang == 'ru':
-            return self.title_ru or self.title_uz
-        elif lang == 'en':
-            return self.title_en or self.title_uz
-        return self.title_uz
+    @property
+    def title(self):
+        return self.get_translated_field('title')
 
-    def get_description(self, lang='uz'):
-        if lang == 'ru':
-            return self.description_ru or self.description_uz
-        elif lang == 'en':
-            return self.description_en or self.description_uz
-        return self.description_uz
+    @property
+    def description(self):
+        return self.get_translated_field('description')
+
+    def get_title(self, lang=None):
+        return self.get_translated_field('title', lang)
+
+    def get_description(self, lang=None):
+        return self.get_translated_field('description', lang)

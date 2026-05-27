@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load static i18n %}
 
-{% block title %}Bosh sahifa - Universitet{% endblock %}
+{% block title %}{% trans "Bosh sahifa" %} - UzOTM{% endblock %}
 
 {% block extra_head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
@@ -56,29 +56,34 @@
 </section>
 
 <section id="features" class="section container features-grid" style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-    <div class="feature-card card glass" style="flex: 1; min-width: 300px; max-width: 500px; padding: 2.5rem; text-align: center; border-radius: var(--radius-lg);">
+    <a href="{% url 'university:universities' %}" class="feature-card card glass" style="flex: 1; min-width: 280px; max-width: 380px; padding: 2.5rem; text-align: center; border-radius: var(--radius-lg); display: block;">
         <div class="icon-circle" style="font-size: 3rem; color: var(--gold); margin-bottom: 1.5rem;"><i class="fas fa-university"></i></div>
         <h3 style="margin-bottom: 1rem;">{% trans "Universitetlar" %}</h3>
-        <p class="muted">{% trans "O‘zbekiston bo‘ylab barcha universitetlar ro‘yxati va tafsilotlari." %}</p>
-    </div>
+        <p class="muted">{% trans "O'zbekiston bo'ylab barcha universitetlar ro'yxati va tafsilotlari." %}</p>
+    </a>
 
-    <div class="feature-card card glass" style="flex: 1; min-width: 300px; max-width: 500px; padding: 2.5rem; text-align: center; border-radius: var(--radius-lg);">
+    <a href="{% url 'university:test_intro' %}" class="feature-card card glass" style="flex: 1; min-width: 280px; max-width: 380px; padding: 2.5rem; text-align: center; border-radius: var(--radius-lg); display: block;">
+        <div class="icon-circle" style="font-size: 3rem; color: #22c55e; margin-bottom: 1.5rem;"><i class="fas fa-brain"></i></div>
+        <h3 style="margin-bottom: 1rem;">{% trans "AI yo'nalish testi" %}</h3>
+        <p class="muted">{% trans "Qiziqish va qobiliyatlaringiz asosida mos kasb hamda universitet yo'nalishini aniqlang." %}</p>
+    </a>
+
+    <a href="#map" class="feature-card card glass" style="flex: 1; min-width: 280px; max-width: 380px; padding: 2.5rem; text-align: center; border-radius: var(--radius-lg); display: block;">
         <div class="icon-circle" style="font-size: 3rem; color: var(--electric-blue); margin-bottom: 1.5rem;"><i class="fas fa-map-location-dot"></i></div>
         <h3 style="margin-bottom: 1rem;">{% trans "Xarita" %}</h3>
-        <p class="muted">{% trans "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko‘ring." %}</p>
-    </div>
+        <p class="muted">{% trans "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring." %}</p>
+    </a>
 
 </section>
 
 <section id="map" class="section container map-section">
     <div class="section-header">
         <div>
-            <p class="eyebrow"><i class="fas fa-map"></i> O‘zbekiston xaritasi</p>
-            <h3>Universitetlar joylashuvi</h3>
-            <p class="muted">Geo ma’lumotga ega universitetlarni interaktiv ko‘rinishda.</p>
+            <p class="eyebrow"><i class="fas fa-map"></i> {% trans "O'zbekiston xaritasi" %}</p>
+            <h3>{% trans "Universitetlar joylashuvi" %}</h3>
+            <p class="muted">{% trans "Geo ma'lumotga ega universitetlarni interaktiv ko'rinishda." %}</p>
         </div>
-        <a class="btn btn-ghost" href="{% url 'university:universities' %}"><i class="fas fa-list"></i> Ro‘yxatga
-            o‘tish</a>
+        <a class="btn btn-ghost" href="{% url 'university:universities' %}"><i class="fas fa-list"></i> {% trans "Ro'yxatga o'tish" %}</a>
     </div>
     <div id="uzb-map"></div>
 </section>
@@ -172,11 +177,12 @@
             data.forEach((item, idx) => {
                 if (!item.lat || !item.lng) return;
                 const marker = L.marker([item.lat, item.lng]).addTo(markerGroup);
+                const detailLabel = "{% trans 'Batafsil' %}";
                 const popupHtml = `
                     <div class="map-popup">
                         <strong style="color: #000;">${item.name}</strong><br>
                         <small style="color: #666;">${item.region || "—"}</small><br>
-                        <a class="popup-link" href="${item.detail_url}" style="color: var(--primary); font-weight: bold;">Batafsil</a>
+                        <a class="popup-link" href="${item.detail_url}" style="color: var(--primary); font-weight: bold;">${detailLabel}</a>
                     </div>
                 `;
                 marker.bindPopup(popupHtml);

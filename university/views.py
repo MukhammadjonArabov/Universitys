@@ -1,15 +1,14 @@
 import json
+import logging
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q, Prefetch
+from django.db.models import Q
 from django.core.paginator import Paginator
 from django.urls import reverse
-from django.contrib.auth import login
-from django.contrib.auth.models import User
-from django.utils import timezone
-from django.utils.translation import get_language
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.conf import settings
+
 from .models import (
     University,
     Region,
@@ -20,220 +19,16 @@ from .models import (
     UserTestResult,
     AdditionalResource,
 )
+from .utils import get_current_language, get_localized_field, get_translation
+from .services import GeminiAIService, TestAnalysisService
+from .test_questions import get_test_questions
 
-def get_current_language(request):
-    lang = getattr(request, 'LANGUAGE_CODE', None) or get_language()
-    return lang if lang in ('uz', 'ru', 'en') else 'uz'
-
-
-def get_localized_field(base_name, lang):
-    return f"{base_name}_{lang}"
+logger = logging.getLogger(__name__)
 
 
-# 20 Static Psychological Questions
-STATIC_QUESTIONS = [
-    {
-        "id": 1,
-        "text": "Sizga qaysi mashg'ulot ko'proq yoqadi?",
-        "options": [
-            {"id": 101, "text": "Kompyuter dasturlari bilan ishlash", "direction": "Axborot texnologiyalari"},
-            {"id": 102, "text": "Odamlarni davolash va maslahat berish", "direction": "Tibbiyot"},
-            {"id": 103, "text": "Chizmalar chizish va qurilmalar yaratish", "direction": "Muhandislik"},
-            {"id": 104, "text": "Bolalarga dars berish", "direction": "Pedagogika"}
-        ]
-    },
-    {
-        "id": 2,
-        "text": "Muammoni qanday hal qilishni afzal ko'rasiz?",
-        "options": [
-            {"id": 201, "text": "Mantiqiy va algoritmlar orqali", "direction": "Axborot texnologiyalari"},
-            {"id": 202, "text": "Qonunlar va qoidalarga tayanib", "direction": "Huquqshunoslik"},
-            {"id": 203, "text": "Raqamlar va hisob-kitoblar bilan", "direction": "Iqtisodiyot"},
-            {"id": 204, "text": "Ijodiy yondashib", "direction": "San'at"}
-        ]
-    },
-    {
-        "id": 3,
-        "text": "Kelajakda o'zingizni kim sifatida ko'rasiz?",
-        "options": [
-            {"id": 301, "text": "Katta kompaniya rahbari", "direction": "Iqtisodiyot"},
-            {"id": 302, "text": "Mashhur advokat yoki sudya", "direction": "Huquqshunoslik"},
-            {"id": 303, "text": "Malakali shifokor", "direction": "Tibbiyot"},
-            {"id": 304, "text": "Dasturchi yoki muhandis", "direction": "Axborot texnologiyalari"}
-        ]
-    },
-    {
-        "id": 4,
-        "text": "Siz uchun eng qiziqarli fan qaysi edi?",
-        "options": [
-            {"id": 401, "text": "Matematika va fizika", "direction": "Muhandislik"},
-            {"id": 402, "text": "Biologiya va kimyo", "direction": "Tibbiyot"},
-            {"id": 403, "text": "Tarix va adabiyot", "direction": "Gumanitar fanlar"},
-            {"id": 404, "text": "Informatika", "direction": "Axborot texnologiyalari"}
-        ]
-    },
-    {
-        "id": 5,
-        "text": "Yangi narsalarni qanday o'rganishni yoqtirasiz?",
-        "options": [
-            {"id": 501, "text": "Tajribada sinab ko'rib", "direction": "Muhandislik"},
-            {"id": 502, "text": "Boshqalarga tushuntirib berib", "direction": "Pedagogika"},
-            {"id": 503, "text": "Mustaqil o'qib va tahlil qilib", "direction": "Gumanitar fanlar"},
-            {"id": 504, "text": "Kompyuterda o'rganib", "direction": "Axborot texnologiyalari"}
-        ]
-    },
-    {
-        "id": 6,
-        "text": "Ish joyingiz qanday bo'lishini xohlaysiz?",
-        "options": [
-            {"id": 601, "text": "Zamonaviy ofisda kompyuter qarshisida", "direction": "Axborot texnologiyalari"},
-            {"id": 602, "text": "Kasalxonada yoki laboratoriyada", "direction": "Tibbiyot"},
-            {"id": 603, "text": "Qurilish maydonida yoki zavodda", "direction": "Muhandislik"},
-            {"id": 604, "text": "Maktabda yoki universitetda", "direction": "Pedagogika"}
-        ]
-    },
-    {
-        "id": 7,
-        "text": "Sizda qaysi xususiyat kuchliroq?",
-        "options": [
-            {"id": 701, "text": "Diqqatlilik va aniqlik", "direction": "Iqtisodiyot"},
-            {"id": 702, "text": "Sabr-toqat va mehribonlik", "direction": "Tibbiyot"},
-            {"id": 703, "text": "Adolatparvarlik", "direction": "Huquqshunoslik"},
-            {"id": 704, "text": "Kreativlik", "direction": "San'at"}
-        ]
-    },
-    {
-        "id": 8,
-        "text": "Qaysi xorijiy tilni o'rganish sizga qiziq?",
-        "options": [
-            {"id": 801, "text": "Ingliz tili (biznes uchun)", "direction": "Iqtisodiyot"},
-            {"id": 802, "text": "Lotin tili (tibbiyot uchun)", "direction": "Tibbiyot"},
-            {"id": 803, "text": "Dasturlash tillari", "direction": "Axborot texnologiyalari"},
-            {"id": 804, "text": "Badiiy tarjima uchun tillar", "direction": "Gumanitar fanlar"}
-        ]
-    },
-    {
-        "id": 9,
-        "text": "Kutilmagan vaziyatda nima qilasiz?",
-        "options": [
-            {"id": 901, "text": "Yechimni tezda hisoblayman", "direction": "Iqtisodiyot"},
-            {"id": 902, "text": "Vaziyatni qonuniy baholayman", "direction": "Huquqshunoslik"},
-            {"id": 903, "text": "Tezkor yordam ko'rsataman", "direction": "Tibbiyot"},
-            {"id": 904, "text": "Texnik nosozlikni tuzataman", "direction": "Muhandislik"}
-        ]
-    },
-    {
-        "id": 10,
-        "text": "Sizga nima ko'proq zavq beradi?",
-        "options": [
-            {"id": 1001, "text": "Yangi ilova yoki sayt yaratish", "direction": "Axborot texnologiyalari"},
-            {"id": 1002, "text": "Bemorning sog'ayishi", "direction": "Tibbiyot"},
-            {"id": 1003, "text": "Siyosiy debatlarda qatnashish", "direction": "Huquqshunoslik"},
-            {"id": 1004, "text": "Yangi loyihani moliyalashtirish", "direction": "Iqtisodiyot"}
-        ]
-    },
-    {
-        "id": 11,
-        "text": "Siz qanday kitoblarni yoqtirasiz?",
-        "options": [
-            {"id": 1101, "text": "Ilmiy-texnik adabiyotlar", "direction": "Muhandislik"},
-            {"id": 1102, "text": "Detektiv va huquqiy asarlar", "direction": "Huquqshunoslik"},
-            {"id": 1103, "text": "Sog'lom turmush tarzi haqida", "direction": "Tibbiyot"},
-            {"id": 1104, "text": "Biznes va psixologiya", "direction": "Iqtisodiyot"}
-        ]
-    },
-    {
-        "id": 12,
-        "text": "Guruhda qanday rol o'ynaysiz?",
-        "options": [
-            {"id": 1201, "text": "Boshqaruvchi (Lider)", "direction": "Iqtisodiyot"},
-            {"id": 1202, "text": "G'oyalar generatori", "direction": "San'at"},
-            {"id": 1203, "text": "Ijrochi (Texnik mutaxassis)", "direction": "Axborot texnologiyalari"},
-            {"id": 1204, "text": "Maslahatchi va tarbiyachi", "direction": "Pedagogika"}
-        ]
-    },
-    {
-        "id": 13,
-        "text": "Sizni nima ko'proq tashvishlantiradi?",
-        "options": [
-            {"id": 1301, "text": "Iqtisodiy inqirozlar", "direction": "Iqtisodiyot"},
-            {"id": 1302, "text": "Ekologik muammolar va kasalliklar", "direction": "Tibbiyot"},
-            {"id": 1303, "text": "Inson huquqlari buzilishi", "direction": "Huquqshunoslik"},
-            {"id": 1304, "text": "Texnologik orqada qolish", "direction": "Axborot texnologiyalari"}
-        ]
-    },
-    {
-        "id": 14,
-        "text": "Siz qanday o'yinlarni yoqtirasiz?",
-        "options": [
-            {"id": 1401, "text": "Strategik va mantiqiy", "direction": "Iqtisodiyot"},
-            {"id": 1402, "text": "Simulyatorlar (shifokor, uchuvchi)", "direction": "Tibbiyot"},
-            {"id": 1403, "text": "Action va sarguzasht", "direction": "Muhandislik"},
-            {"id": 1404, "text": "Kibersport o'yinlari", "direction": "Axborot texnologiyalari"}
-        ]
-    },
-    {
-        "id": 15,
-        "text": "Odamlar bilan qanday muloqot qilasiz?",
-        "options": [
-            {"id": 1501, "text": "Rasmiy va aniq faktlar asosida", "direction": "Huquqshunoslik"},
-            {"id": 1502, "text": "Ishontirish orqali (notiq)", "direction": "Pedagogika"},
-            {"id": 1503, "text": "Yaqin va samimiy", "direction": "Tibbiyot"},
-            {"id": 1504, "text": "Ijtimoiy tarmoqlar orqali", "direction": "Axborot texnologiyalari"}
-        ]
-    },
-    {
-        "id": 16,
-        "text": "Siz uchun muvaffaqiyat nima?",
-        "options": [
-            {"id": 1601, "text": "Yuqori daromadli biznes", "direction": "Iqtisodiyot"},
-            {"id": 1602, "text": "Insonlar hayotini saqlab qolish", "direction": "Tibbiyot"},
-            {"id": 1603, "text": "Global ahamiyatga ega texnologiya", "direction": "Axborot texnologiyalari"},
-            {"id": 1604, "text": "Qadriyatlarni saqlab qolish", "direction": "Gumanitar fanlar"}
-        ]
-    },
-    {
-        "id": 17,
-        "text": "Qaysi sohada kashfiyot qilmoqchisiz?",
-        "options": [
-            {"id": 1701, "text": "Sun'iy intellekt", "direction": "Axborot texnologiyalari"},
-            {"id": 1702, "text": "Gen muhandisligi", "direction": "Tibbiyot"},
-            {"id": 1703, "text": "Kosmik kemalar", "direction": "Muhandislik"},
-            {"id": 1704, "text": "Yangi iqtisodiy model", "direction": "Iqtisodiyot"}
-        ]
-    },
-    {
-        "id": 18,
-        "text": "Sizga nima ko'proq yoqadi?",
-        "options": [
-            {"id": 1801, "text": "Binolar dizayni", "direction": "Muhandislik"},
-            {"id": 1802, "text": "Grafik dizayn", "direction": "San'at"},
-            {"id": 1803, "text": "Matnlar bilan ishlash", "direction": "Gumanitar fanlar"},
-            {"id": 1804, "text": "Ma'lumotlar bazasi", "direction": "Axborot texnologiyalari"}
-        ]
-    },
-    {
-        "id": 19,
-        "text": "Dunyoni nima qutqaradi deb o'ylaysiz?",
-        "options": [
-            {"id": 1901, "text": "Ilm-fan va texnologiya", "direction": "Axborot texnologiyalari"},
-            {"id": 1902, "text": "Mehribonlik va tibbiyot", "direction": "Tibbiyot"},
-            {"id": 1903, "text": "Adolat va qonun ustuvorligi", "direction": "Huquqshunoslik"},
-            {"id": 1904, "text": "Iqtisodiy farovonlik", "direction": "Iqtisodiyot"}
-        ]
-    },
-    {
-        "id": 20,
-        "text": "Keyingi 10 yil ichida qaysi soha eng muhim bo'ladi?",
-        "options": [
-            {"id": 2001, "text": "Raqamlashtirish (IT)", "direction": "Axborot texnologiyalari"},
-            {"id": 2002, "text": "Virusologiya va sog'liqni saqlash", "direction": "Tibbiyot"},
-            {"id": 2003, "text": "Ekologik energiya", "direction": "Muhandislik"},
-            {"id": 2004, "text": "Ta'lim islohotlari", "direction": "Pedagogika"}
-        ]
-    }
-]
-
+# ─────────────────────────────────────────────
+# PUBLIC VIEWS
+# ─────────────────────────────────────────────
 
 def home_view(request):
     """
@@ -252,8 +47,9 @@ def home_view(request):
     for uni in universities_with_geo:
         map_data.append(
             {
-                "name": uni.name,
-                "region": uni.region.name if uni.region else "",
+                # Use the language-aware field directly instead of .name property
+                "name": getattr(uni, name_field, uni.name_uz),
+                "region": getattr(uni.region, f"name_{lang}", uni.region.name_uz) if uni.region else "",
                 "phone_number": uni.phone_number,
                 "email": uni.email,
                 "lat": uni.latitude,
@@ -262,7 +58,6 @@ def home_view(request):
             }
         )
 
-    # Get counts from database
     universities_count = University.objects.count()
 
     return render(
@@ -360,124 +155,136 @@ def resources_list_view(request):
     return render(request, "pages/resources.html", {"resources": resources})
 
 
-
-
-def test_intro_view(request):
-    """Intro page for the psychological test."""
-    return render(request, "pages/test_intro.html")
-
-
-@login_required
-def test_process_view(request):
-    """The psychological test process page with 20 static questions and timer."""
-    # Use static questions instead of DB
-    return render(request, "pages/test_process.html", {"questions": STATIC_QUESTIONS})
-
-
-@login_required
-def submit_test(request):
-    """Handle test submission via AJAX or POST."""
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            answers = data.get("answers", {}) # {question_id: option_id}
-            
-            # Calculate scores per direction name
-            direction_scores = {}
-            for q_id_str, opt_id_str in answers.items():
-                q_id = int(q_id_str)
-                opt_id = int(opt_id_str)
-                
-                # Find option in static list
-                found = False
-                for q in STATIC_QUESTIONS:
-                    if q["id"] == q_id:
-                        for opt in q["options"]:
-                            if opt["id"] == opt_id:
-                                d_name = opt["direction"]
-                                direction_scores[d_name] = direction_scores.get(d_name, 0) + 1
-                                found = True
-                                break
-                    if found: break
-            
-            # Always set default recommendation as it will be updated by Gemini later.
-            recommendation = "Gemini AI natijalaringizni tahlil qilmoqda..."
-
-            # Save result
-            result = UserTestResult.objects.create(
-                user=request.user,
-                score_data=direction_scores,
-                recommendation=recommendation,
-                is_completed=True
-            )
-            
-            return JsonResponse({
-                "status": "success",
-                "redirect_url": reverse("university:test_result", args=[result.id])
-            })
-        except Exception as e:
-            return JsonResponse({"status": "error", "message": str(e)}, status=400)
-    
-    return redirect("university:test_intro")
-
-
-from django.views.decorators.http import require_POST
-import environ
-from google import genai
-
-env = environ.Env()
-
-@login_required
-def test_result_view(request, pk):
-    """Display test result."""
-    result = get_object_or_404(UserTestResult, pk=pk, user=request.user)
-    return render(request, "pages/test_result.html", {"result": result})
-
-@login_required
-@require_POST
-def analyze_test_api(request, pk):
-    result = get_object_or_404(UserTestResult, pk=pk, user=request.user)
-    
-    lang = get_current_language(request)
-    lang_map = {'uz': 'Uzbek', 'ru': 'Russian', 'en': 'English'}
-    target_lang = lang_map.get(lang, 'Uzbek')
-    
-    scores_text = "\\n".join([f"- {k}: {v} points" for k, v in result.score_data.items()])
-    
-    prompt = f"""
-You are an expert career counselor and psychologist. 
-A student has completed a psychological career test and got the following scores in different fields:
-{scores_text}
-
-Analyze these results and provide a highly motivating, personalized, and professional career recommendation.
-Explain briefly why these fields fit the student based on their scores. Do not format as a letter, just return the raw text. Use markdown for bolding.
-IMPORTANT: You MUST write your entire response in {target_lang} language!
-"""
-    try:
-        client = genai.Client(api_key=env('GEMINI_API_KEY'))
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt,
-        )
-        recommendation_text = response.text
-        
-        result.recommendation = recommendation_text
-        result.save()
-        
-        return JsonResponse({"status": "success", "recommendation": recommendation_text})
-    except Exception as e:
-        print("Gemini API Error:", e)
-        error_message = str(e)
-        if '503' in error_message or 'UNAVAILABLE' in error_message.upper():
-            user_message = "Gemini xizmati hozir band yoki talab ko‘p. Iltimos, birozdan keyin qayta urinib ko‘ring."
-            status_code = 503
-        else:
-            user_message = "Gemini API xatosi yuz berdi: " + error_message
-            status_code = 500
-        return JsonResponse({"status": "error", "message": user_message}, status=status_code)
+# ─────────────────────────────────────────────
+# AUTH VIEWS
+# ─────────────────────────────────────────────
 
 def login_view(request):
     """Render the beautifully designed Google login page."""
     if request.user.is_authenticated:
-        return redirect("university:test_process")
+        # Redirect to home page, not test — let user decide where to go
+        return redirect("university:home")
     return render(request, "auth/login.html")
+
+
+# ─────────────────────────────────────────────
+# TEST VIEWS
+# ─────────────────────────────────────────────
+
+def test_intro_view(request):
+    """Intro page for the psychological test."""
+    last_result = None
+    if request.user.is_authenticated:
+        last_result = (
+            UserTestResult.objects
+            .filter(user=request.user, is_completed=True)
+            .order_by('-created_date')
+            .first()
+        )
+    return render(request, "pages/test_intro.html", {"last_result": last_result})
+
+
+@login_required
+def test_process_view(request):
+    """The psychological test process page with 20 questions and timer."""
+    lang = get_current_language(request)
+    questions = get_test_questions(lang)
+    return render(request, "pages/test_process.html", {"questions": questions})
+
+
+@login_required
+@require_POST
+def submit_test(request):
+    """Handle test submission via AJAX POST."""
+    try:
+        data = json.loads(request.body)
+        answers = data.get("answers", {})  # {question_id: option_id}
+
+        # Calculate scores using language-agnostic (uz) question list
+        questions = get_test_questions('uz')
+        direction_scores = {}
+
+        for q_id_str, opt_id_str in answers.items():
+            try:
+                q_id = int(q_id_str)
+                opt_id = int(opt_id_str)
+            except (ValueError, TypeError):
+                continue
+
+            for q in questions:
+                if q["id"] == q_id:
+                    for opt in q["options"]:
+                        if opt["id"] == opt_id:
+                            d_name = opt.get("direction", "Unknown")
+                            direction_scores[d_name] = direction_scores.get(d_name, 0) + 1
+                            break
+                    break
+
+        if not direction_scores:
+            return JsonResponse(
+                {"status": "error", "message": get_translation("no_valid_answers", get_current_language(request))},
+                status=400
+            )
+
+        lang = get_current_language(request)
+        recommendation = get_translation("analyzing", lang)
+
+        result = UserTestResult.objects.create(
+            user=request.user,
+            score_data=direction_scores,
+            recommendation=recommendation,
+            is_completed=True
+        )
+
+        return JsonResponse({
+            "status": "success",
+            "redirect_url": reverse("university:test_result", args=[result.id])
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({"status": "error", "message": get_translation("invalid_json", get_current_language(request))}, status=400)
+    except Exception as e:
+        logger.error(f"submit_test error: {e}", exc_info=True)
+        return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+
+@login_required
+def test_result_view(request, pk):
+    """Display test result — only the owner can view."""
+    result = get_object_or_404(UserTestResult, pk=pk, user=request.user)
+    return render(request, "pages/test_result.html", {"result": result})
+
+
+@login_required
+@require_POST
+def analyze_test_api(request, pk):
+    """
+    Call Gemini AI to analyze test results.
+    Cached: if a rich recommendation already exists, returns it immediately.
+    """
+    result = get_object_or_404(UserTestResult, pk=pk, user=request.user)
+    lang = get_current_language(request)
+    cache_prefix = f"<!-- lang:{lang} -->"
+
+    # Cache is language-aware; changing the site language must produce matching AI text.
+    if result.recommendation and result.recommendation.startswith(cache_prefix) and len(result.recommendation) > 150:
+        logger.info(f"[analyze_test_api] Returning cached result for pk={pk}, lang={lang}")
+        recommendation = result.recommendation.replace(cache_prefix, "", 1).strip()
+        return JsonResponse({"status": "success", "recommendation": recommendation})
+
+    if not result.score_data:
+        return JsonResponse({"status": "error", "message": get_translation("api_error", lang)}, status=400)
+
+    ai_service = GeminiAIService()
+    success, recommendation_text = ai_service.analyze_test_results(
+        score_data=result.score_data,
+        language=lang,
+    )
+
+    if success:
+        result.recommendation = f"{cache_prefix}\n{recommendation_text}"
+        result.save(update_fields=["recommendation", "updated_date"])
+        return JsonResponse({"status": "success", "recommendation": recommendation_text})
+
+    user_message = get_translation("api_error", lang)
+    return JsonResponse({"status": "error", "message": user_message}, status=500)

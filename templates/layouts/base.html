@@ -36,7 +36,7 @@
                     class="{% if '/manbalar' in request.path %}active{% endif %}">{% trans "Manbalar" %}</a>
 
                 <a href="{% url 'university:test_intro' %}"
-                    class="{% if '/test' in request.path %}active{% endif %}">{% trans "Yoʻnalishni aniqlash" %}</a>
+                    class="{% if '/test' in request.path %}active{% endif %}">{% trans "Yo'nalishni aniqlash" %}</a>
 
             </nav>
             <div class="nav-actions">
@@ -44,6 +44,7 @@
                 <div class="language-switcher">
                     <form action="{% url 'set_language' %}" method="post" class="language-form" id="language-form">
                         {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
                         <select name="language" id="language-select" onchange="document.getElementById('language-form').submit()">
                             <option value="uz" {% if LANGUAGE_CODE == 'uz' %}selected{% endif %}>O'z</option>
                             <option value="ru" {% if LANGUAGE_CODE == 'ru' %}selected{% endif %}>Рус</option>
@@ -52,9 +53,21 @@
                     </form>
                 </div>
                 
-                <button id="theme-toggle" class="btn-icon">
+                <button id="theme-toggle" class="btn-icon" type="button" aria-label="{% trans 'Mavzuni almashtirish' %}">
                     <i class="fas fa-moon"></i>
                 </button>
+                {% if user.is_authenticated %}
+                <form action="{% url 'account_logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button class="btn-icon" type="submit" aria-label="{% trans 'Chiqish' %}">
+                        <i class="fas fa-right-from-bracket"></i>
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'university:login' %}" class="btn-icon" aria-label="{% trans 'Tizimga kirish' %}">
+                    <i class="fas fa-right-to-bracket"></i>
+                </a>
+                {% endif %}
                 <div class="hamburger">
                     <span></span>
                     <span></span>

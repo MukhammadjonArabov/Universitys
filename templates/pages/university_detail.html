@@ -20,9 +20,9 @@
     <div class="detail-hero card glass">
         <div class="detail-hero-media">
             {% if university.image %}
-            <img src="{{ university.image.url }}" alt="{{ university.name }}">
+            <img src="{{ university.image.url }}" alt="{% trans 'Universitet rasmi' %} - {{ university.name }}">
             {% else %}
-            <img src="{% static 'logo/logo_univesity.png' %}" alt="{{ university.name }}">
+            <img src="{% static 'logo/logo_univesity.png' %}" alt="{% trans 'Universitet logosi' %} - {{ university.name }}">
             {% endif %}
         </div>
         <div class="detail-hero-body">

@@ -30,8 +30,9 @@ oauthlib==3.3.1
 pillow==12.0.0
 polib==1.2.0
 propcache==0.5.2
-psycopg-binary==3.3.4
+# psycopg-binary (psycopg3) removed — psycopg2-binary is sufficient and stable
 psycopg2-binary==2.9.12
+psycopg[binary]>=3.2,<4
 pyasn1==0.6.3
 pyasn1-modules==0.4.2
 pycparser==3.0
@@ -47,6 +48,4 @@ typing_extensions==4.15.0
 tzdata==2025.2
 urllib3==2.5.0
 websockets==16.0
-yarl==1.23.0
-
 yarl==1.23.0

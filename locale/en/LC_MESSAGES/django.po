@@ -119,3 +119,215 @@ msgstr "View on map"
 
 msgid "Hududlar"
 msgstr "Regions"
+
+msgid "O'zbekiston xaritasi"
+msgstr "Map of Uzbekistan"
+
+msgid "Universitetlar joylashuvi"
+msgstr "University Locations"
+
+msgid "Geo ma'lumotga ega universitetlarni interaktiv ko'rinishda."
+msgstr "Universities with geo data in an interactive view."
+
+msgid "Ro'yxatga o'tish"
+msgstr "View List"
+
+msgid "Batafsil"
+msgstr "More Details"
+
+msgid "Yo'nalishni aniqlash"
+msgstr "Find Your Direction"
+
+msgid "Test"
+msgstr "Test"
+
+msgid "Test jarayoni"
+msgstr "Test Process"
+
+msgid "Kasbiy yo'nalishingizni aniqlang"
+msgstr "Find Your Professional Direction"
+
+msgid ""
+"Ushbu psixologik test sizning qiziqishlaringiz va qobiliyatlaringiz qaysi "
+"sohalarga ko'proq mos kelishini aniqlashga yordam beradi."
+msgstr ""
+"This psychological test helps determine which fields best match your "
+"interests and abilities."
+
+msgid "20 ta savol"
+msgstr "20 Questions"
+
+msgid "30 daqiqa vaqt"
+msgstr "30 Minutes"
+
+msgid "Aniq natija"
+msgstr "Accurate Results"
+
+msgid ""
+"Testni boshlash uchun tizimga kirgan bo'lishingiz kerak. Agar ro'yxatdan "
+"o'tmagan bo'lsangiz, Google hisobingiz orqali tezda ro'yxatdan o'tishingiz "
+"mumkin."
+msgstr ""
+"You need to be logged in to start the test. If you haven't registered, you "
+"can quickly sign up with your Google account."
+
+msgid "Testni boshlash"
+msgstr "Start the Test"
+
+msgid "Google orqali kirish va testni boshlash"
+msgstr "Sign in with Google and Start the Test"
+
+msgid ""
+"Agar ro'yxatdan o'tmagan bo'lsangiz, Gmail hisobingiz bilan tezda tizimga "
+"kiring."
+msgstr "If you haven't registered, sign in quickly with your Gmail account."
+
+msgid "Savol"
+msgstr "Question"
+
+msgid "Oldingisi"
+msgstr "Previous"
+
+msgid "Yakunlash"
+msgstr "Finish"
+
+msgid "Vaqt tugadi! Natijalar hisoblanmoqda..."
+msgstr "Time's up! Calculating results..."
+
+msgid "Xatolik: "
+msgstr "Error: "
+
+msgid "Tarmoq xatosi. Iltimos sahifani yangilang."
+msgstr "Network error. Please refresh the page."
+
+msgid "Natija"
+msgstr "Result"
+
+msgid "Tabriklaymiz!"
+msgstr "Congratulations!"
+
+msgid "Test muvaffaqiyatli yakunlandi. AI natijalaringizni tahlil qilmoqda..."
+msgstr "Test completed successfully. AI is analyzing your results..."
+
+msgid "Gemini AI tahlil qilmoqda..."
+msgstr "Gemini AI is analyzing..."
+
+msgid "Javoblaringiz qayta ishlanmoqda. Iltimos kuting."
+msgstr "Your answers are being processed. Please wait."
+
+msgid "Kasbiy yo'nalish"
+msgstr "Career Direction"
+
+msgid "Kuchli tomonlar"
+msgstr "Strengths"
+
+msgid "Tavsiya etilgan sohalar"
+msgstr "Recommended Fields"
+
+msgid "Universitetlar"
+msgstr "Universities"
+
+msgid "Kasb tavsiflari"
+msgstr "Career Descriptions"
+
+msgid "Shaxsiy maslahat"
+msgstr "Personal Advice"
+
+msgid "AI Xulosasi"
+msgstr "AI Summary"
+
+msgid "Universitetlarni ko'rish"
+msgstr "Browse Universities"
+
+msgid "Testni qayta topshirish"
+msgstr "Retake the Test"
+
+msgid "Xatolik yuz berdi"
+msgstr "An Error Occurred"
+
+msgid "Qayta urinish"
+msgstr "Try Again"
+
+msgid "Tarmoq xatosi. Sahifani yangilang."
+msgstr "Network error. Refresh the page."
+
+msgid "Natijalar qisman ko'rsatilmoqda."
+msgstr "Results are partially shown."
+
+msgid "Gemini AI javoblaringizni tahlil qilmoqda..."
+msgstr "Gemini AI is analyzing your answers..."
+
+msgid "Javoblaringiz Gemini AI tomonidan qayta ishlanmoqda, iltimos kuting."
+msgstr "Your answers are being processed by Gemini AI, please wait."
+
+msgid "Oxirgi natijamni ko'rish"
+msgstr "View My Last Result"
+
+msgid "Mavzuni almashtirish"
+msgstr "Change theme"
+
+msgid "Chiqish"
+msgstr "Log out"
+
+msgid "Tizimga kirish"
+msgstr "Sign in"
+
+msgid "Shaxsiyat va kuchli tomonlar"
+msgstr "Personality & Strengths"
+
+msgid "Kasbiy yo'nalishlar"
+msgstr "Career Directions"
+
+msgid "Universitet mutaxassisliklari"
+msgstr "University Majors"
+
+msgid "Tayyorgarlik yo'l xaritasi"
+msgstr "Preparation Roadmap"
+
+msgid "Harakat rejasi"
+msgstr "Action Plan"
+
+msgid "Motivatsion xulosa"
+msgstr "Motivation Summary"
+
+msgid "Universitetlar ro'yxati"
+msgstr "Universities List"
+
+msgid "Viloyat bo'yicha filtrlash va tezkor qidiruv."
+msgstr "Filter by region and quick search."
+
+msgid "Qidiruv yoki filterni o'zgartirib ko'ring."
+msgstr "Try changing your search or filter."
+
+msgid "Qo'shimcha manbalar"
+msgstr "Additional Resources"
+
+msgid ""
+"O'zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar."
+msgstr ""
+"Useful links about universities and the education system in Uzbekistan."
+
+msgid "Universitet logosi"
+msgstr "University logo"
+
+msgid "Universitet rasmi"
+msgstr "University image"
+
+msgid "Iltimos, barcha savollarga javob bering."
+msgstr "Please answer all questions."
+
+msgid "O'zbekiston bo'ylab barcha universitetlar ro'yxati va tafsilotlari."
+msgstr "A full list of universities across Uzbekistan with key details."
+
+msgid "AI yo'nalish testi"
+msgstr "AI Direction Test"
+
+msgid ""
+"Qiziqish va qobiliyatlaringiz asosida mos kasb hamda universitet "
+"yo'nalishini aniqlang."
+msgstr ""
+"Find a suitable career and university path based on your interests and "
+"abilities."
+
+msgid "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."
+msgstr "View universities with location data on an interactive map."

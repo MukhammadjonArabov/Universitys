@@ -30,7 +30,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '68.183.218.254']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 
 # Application definition
@@ -147,11 +147,9 @@ LANGUAGES = [
     ('en', 'English'),
 ]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 
@@ -223,7 +221,11 @@ LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*"]
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
 
 # We will pull these from .env, but handle defaults
 GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID', default='')
@@ -240,3 +242,8 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
+
+# Gemini API Configuration
+GEMINI_API_KEY = env('GEMINI_API_KEY', default='')
+GEMINI_MODEL = env('GEMINI_MODEL', default='gemini-2.5-flash')
+
