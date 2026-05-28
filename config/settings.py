@@ -30,7 +30,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '68.183.218.254', 'uzotm.uz', 'www.uzotm.uz']
 
 
 # Application definition
