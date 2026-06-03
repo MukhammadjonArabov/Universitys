@@ -1,5 +1,5 @@
 {% extends "layouts/base.html" %}
-{% load static i18n %}
+{% load static i18n university_extras %}
 
 {% block title %}{{ university.name }} - {% trans "Tafsilot" %}{% endblock %}
 
@@ -30,8 +30,11 @@
             <h1>{{ university.name }}</h1>
             <div class="detail-grid">
                 <div><i class="fas fa-location-dot"></i> {{ university.region.name }}</div>
-                <div><i class="fas fa-globe"></i> <a href="{{ university.website }}" target="_blank" rel="noopener">{{
-                        university.website }}</a></div>
+                <div><i class="fas fa-globe"></i> <a href="{{ university.website }}" target="_blank" rel="noopener">{{ university.website|domain }}</a></div>
+                <div><i class="fas fa-book"></i> {% trans "Fakultetlar" %}: {{ university.faculties_count }}</div>
+                <div><i class="fas fa-layer-group"></i> {% trans "Yo'nalishlar" %}: {{ university.directions_count }}</div>
+                <div><i class="fas fa-user-graduate"></i> {% trans "Talabalar" %}: {{ university.students_count }}</div>
+                <div><i class="fas fa-chalkboard-teacher"></i> {% trans "O'qtuvchilar" %}: {{ university.professors_count }}</div>
                 <div><i class="fas fa-envelope"></i> {{ university.email }}</div>
                 <div><i class="fas fa-phone"></i> {{ university.phone_number }}</div>
                 <div><i class="fas fa-map-pin"></i> {{ university.postal_address }}</div>

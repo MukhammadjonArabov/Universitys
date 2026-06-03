@@ -239,6 +239,18 @@ msgstr "AI Summary"
 msgid "Universitetlarni ko'rish"
 msgstr "Browse Universities"
 
+msgid "O'qtuvchilar"
+msgstr "Professors"
+
+msgid "Fakultetlar"
+msgstr "Faculties"
+
+msgid "Yo'nalishlar"
+msgstr "Directions"
+
+msgid "Talabalar"
+msgstr "Students"
+
 msgid "Testni qayta topshirish"
 msgstr "Retake the Test"
 

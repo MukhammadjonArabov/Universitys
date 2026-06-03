@@ -238,6 +238,18 @@ msgstr "Заключение AI"
 msgid "Universitetlarni ko'rish"
 msgstr "Просмотреть университеты"
 
+msgid "O'qtuvchilar"
+msgstr "Преподаватели"
+
+msgid "Fakultetlar"
+msgstr "Факультеты"
+
+msgid "Yo'nalishlar"
+msgstr "Направления"
+
+msgid "Talabalar"
+msgstr "Студенты"
+
 msgid "Testni qayta topshirish"
 msgstr "Пройти тест заново"
 

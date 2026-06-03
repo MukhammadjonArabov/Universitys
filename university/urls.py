@@ -15,4 +15,5 @@ urlpatterns = [
     path('test/result/<int:pk>/', views.test_result_view, name='test_result'),
     path('api/analyze-test/<int:pk>/', views.analyze_test_api, name='analyze_test_api'),
     path('login/', views.login_view, name='login'),
+    path('profile/', views.profile_view, name='profile'),
 ]

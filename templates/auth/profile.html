@@ -1,0 +1,41 @@
+{% extends "layouts/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Profil" %}{% endblock %}
+
+{% block content %}
+<section class="container section">
+    <div class="card login-card">
+        <div class="login-header">
+            <h2>{% trans "Profil" %}</h2>
+            <p class="muted">{% trans "Sizning hisobingiz va test natijalaringiz" %}</p>
+        </div>
+        <div class="login-body">
+            <div style="display:flex; gap:2rem; align-items:flex-start;">
+                <div style="flex:1;">
+                    <p><strong>{% trans "Foydalanuvchi" %}:</strong> {{ request.user.get_full_name|default:request.user.username }}</p>
+                    <p><strong>{% trans "Email" %}:</strong> {{ request.user.email }}</p>
+                    {% if profile and profile.phone_number %}
+                    <p><strong>{% trans "Telefon" %}:</strong> {{ profile.phone_number }}</p>
+                    {% endif %}
+                </div>
+                <div style="flex:1;">
+                    <h4>{% trans "Test natijalari" %}</h4>
+                    {% if test_results %}
+                        <ul>
+                            {% for r in test_results %}
+                                <li>
+                                    <a href="{% url 'university:test_result' r.id %}">{{ r.created_date|date:"Y-m-d H:i" }}</a>
+                                    - {{ r.recommendation|truncatechars:80 }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="muted">{% trans "Hech qanday natija topilmadi." %}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

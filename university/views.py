@@ -167,6 +167,17 @@ def login_view(request):
     return render(request, "auth/login.html")
 
 
+@login_required
+def profile_view(request):
+    """User profile page showing basic profile and their test results."""
+    profile = getattr(request.user, 'profile', None)
+    test_results = request.user.test_results.order_by('-created_date') if request.user.is_authenticated else []
+    return render(request, 'auth/profile.html', {
+        'profile': profile,
+        'test_results': test_results,
+    })
+
+
 # ─────────────────────────────────────────────
 # TEST VIEWS
 # ─────────────────────────────────────────────

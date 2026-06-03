@@ -110,3 +110,6 @@ msgstr ""
 
 msgid "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."
 msgstr "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."
+
+msgid "O'qtuvchilar"
+msgstr "O'qtuvchilar"

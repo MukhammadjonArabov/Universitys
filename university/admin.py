@@ -64,12 +64,16 @@ class RegionAdmin(admin.ModelAdmin):
 
 @admin.register(University)
 class UniversityAdmin(admin.ModelAdmin):
+    list_display = ('name_uz', 'region', 'faculties_count', 'directions_count', 'students_count', 'professors_count')
     list_filter = ('region',)
     search_fields = ('name_uz', 'name_ru', 'name_en', 'email', 'phone_number')
     readonly_fields = ('created_date', 'updated_date')
     fieldsets = (
         ('Basic Information', {
             'fields': ('region', 'phone_number', 'email', 'website', 'image', 'latitude', 'longitude')
+        }),
+        ('Counts', {
+            'fields': ('faculties_count', 'directions_count', 'students_count', 'professors_count')
         }),
         ('O\'zbekcha (Uzbek)', {
             'fields': ('name_uz', 'postal_address_uz')

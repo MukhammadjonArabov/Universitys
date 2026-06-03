@@ -239,9 +239,17 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'AUTH_PARAMS': {
             'access_type': 'online',
+            # Force Google account chooser so users can pick which account to use
+            'prompt': 'select_account',
         },
     }
 }
+
+# Use custom socialaccount adapter to ensure usernames are generated for social users
+SOCIALACCOUNT_ADAPTER = 'university.account_adapter.MySocialAccountAdapter'
+
+# Let account signup not require a username field (we still populate one for auth.User)
+ACCOUNT_USERNAME_REQUIRED = False
 
 # Gemini API Configuration
 GEMINI_API_KEY = env('GEMINI_API_KEY', default='')
