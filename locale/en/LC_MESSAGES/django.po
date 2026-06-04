@@ -77,10 +77,10 @@ msgstr "Additional Resources"
 
 msgid ""
 "O‘zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar."
-msgstr ""
+msgstr "Useful links about universities and the education system in Uzbekistan."
+
 msgid "Bo'limlar"
-msgstr "Sections"
-"Useful links about universities and the education system in Uzbekistan."
+msgstr "Links"
 
 msgid "Manbalar mavjud emas"
 msgstr "No resources available"
