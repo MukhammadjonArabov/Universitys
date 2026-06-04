@@ -24,6 +24,9 @@ msgstr "Bosh sahifa"
 msgid "Bo'limlar"
 msgstr "Bo'limlar"
 
+msgid "Aloqa"
+msgstr "Aloqa"
+
 msgid "Universitetlar"
 msgstr "Universitetlar"
 

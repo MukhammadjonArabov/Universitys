@@ -33,6 +33,9 @@ msgstr "Determine Direction"
 msgid "Kontakt"
 msgstr "Contact"
 
+msgid "Aloqa"
+msgstr "Contact"
+
 msgid "Xush kelibsiz!"
 msgstr "Welcome!"
 

@@ -779,6 +779,39 @@ textarea:focus {
     margin-bottom: 3rem;
 }
 
+/* Resources cards grid - equal height cards */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.card-link { display: block; height: 100%; }
+.resource-card { display: flex; height: 100%; }
+.resource-card .card-body { display: flex; flex-direction: column; padding: 1.5rem; height: 100%; }
+.card-footer-simple { margin-top: auto; }
+
+/* Simple accessible helpers */
+.visually-hidden, .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Footer contact icon links */
+.footer-contact { display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-start; justify-content: center; }
+.footer-contact .icon-link { display: inline-flex; align-items: center; gap: 0.8rem; color: var(--text-secondary); font-size: 1.1rem; }
+.footer-contact .icon-link i { font-size: 1.9rem; color: var(--electric-blue); }
+.footer-contact .icon-link:hover i { color: var(--gold); transform: translateY(-3px); }
+
+
 .filter-row {
     margin-bottom: 2rem;
     display: flex;

@@ -36,6 +36,9 @@ msgstr "Определение направления"
 msgid "Kontakt"
 msgstr "Контакты"
 
+msgid "Aloqa"
+msgstr "Связь"
+
 msgid "Xush kelibsiz!"
 msgstr "Добро пожаловать!"
 

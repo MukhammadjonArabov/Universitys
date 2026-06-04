@@ -35,12 +35,8 @@
                 <a href="{% url 'university:resources' %}"
                     class="{% if '/manbalar' in request.path %}active{% endif %}">{% trans "Manbalar" %}</a>
 
-                <a href="{% url 'university:home' %}#directions" class="{% if request.path == '/' %}active{% endif %}">{% trans "Yo'nalishlar" %}</a>
-
                 <a href="{% url 'university:test_intro' %}"
                     class="{% if '/test' in request.path %}active{% endif %}">{% trans "Yo'nalishni aniqlash" %}</a>
-
-                <!-- Contact link removed from navbar per request -->
 
             </nav>
             <div class="nav-actions">
@@ -114,15 +110,13 @@
                     <li><a href="{% url 'university:home' %}">{% trans "Bosh sahifa" %}</a></li>
                     <li><a href="{% url 'university:universities' %}">{% trans "Universitetlar" %}</a></li>
                     <li><a href="{% url 'university:resources' %}">{% trans "Manbalar" %}</a></li>
-                    <li><a href="{% url 'university:home' %}#directions">{% trans "Yo'nalishlar" %}</a></li>
                     <li><a href="{% url 'university:test_intro' %}">{% trans "Yo'nalishni aniqlash" %}</a></li>
-                    <li><a href="{% url 'university:home' %}#contact">{% trans "Kontakt" %}</a></li>
                 </ul>
             </div>
             <div class="footer-contact">
-                <h4>{% trans "Kontakt" %}</h4>
-                <p>{% trans "Telegram" %}: <a href="https://t.me/Muhammadjon_Arabov" target="_blank" rel="noopener noreferrer">@Muhammadjon_Arabov</a></p>
-                <p>{% trans "Telefon" %}: <a href="tel:+998992774080">+998 99 277 40 80</a></p>
+                <h4>{% trans "Aloqa" %}</h4>
+                <p><a class="icon-link" href="https://t.me/Muhammadjon_Arabov" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram"></i> @Muhammadjon_Arabov</a></p>
+                <p><a class="icon-link" href="tel:+998992774080"><i class="fas fa-phone"></i> +998 99 277 40 80</a></p>
             </div>
         </div>
     </footer>
