@@ -21,6 +21,9 @@ msgstr ""
 msgid "Bosh sahifa"
 msgstr "Bosh sahifa"
 
+msgid "Bo'limlar"
+msgstr "Bo'limlar"
+
 msgid "Universitetlar"
 msgstr "Universitetlar"
 
@@ -110,6 +113,9 @@ msgstr ""
 
 msgid "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."
 msgstr "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."
+
+msgid "Xarita"
+msgstr "Xarita"
 
 msgid "O'qtuvchilar"
 msgstr "O'qtuvchilar"

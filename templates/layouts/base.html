@@ -35,8 +35,12 @@
                 <a href="{% url 'university:resources' %}"
                     class="{% if '/manbalar' in request.path %}active{% endif %}">{% trans "Manbalar" %}</a>
 
+                <a href="{% url 'university:home' %}#directions" class="{% if request.path == '/' %}active{% endif %}">{% trans "Yo'nalishlar" %}</a>
+
                 <a href="{% url 'university:test_intro' %}"
                     class="{% if '/test' in request.path %}active{% endif %}">{% trans "Yo'nalishni aniqlash" %}</a>
+
+                <!-- Contact link removed from navbar per request -->
 
             </nav>
             <div class="nav-actions">
@@ -102,9 +106,24 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>© 2025 UzOTM. {% trans "Barcha huquqlar himoyalangan." %}</p>
+    <footer id="contact" class="footer">
+        <div class="container footer-grid">
+            <div class="footer-links">
+                <h4>{% trans "Bo'limlar" %}</h4>
+                <ul>
+                    <li><a href="{% url 'university:home' %}">{% trans "Bosh sahifa" %}</a></li>
+                    <li><a href="{% url 'university:universities' %}">{% trans "Universitetlar" %}</a></li>
+                    <li><a href="{% url 'university:resources' %}">{% trans "Manbalar" %}</a></li>
+                    <li><a href="{% url 'university:home' %}#directions">{% trans "Yo'nalishlar" %}</a></li>
+                    <li><a href="{% url 'university:test_intro' %}">{% trans "Yo'nalishni aniqlash" %}</a></li>
+                    <li><a href="{% url 'university:home' %}#contact">{% trans "Kontakt" %}</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>{% trans "Kontakt" %}</h4>
+                <p>{% trans "Telegram" %}: <a href="https://t.me/Muhammadjon_Arabov" target="_blank" rel="noopener noreferrer">@Muhammadjon_Arabov</a></p>
+                <p>{% trans "Telefon" %}: <a href="tel:+998992774080">+998 99 277 40 80</a></p>
+            </div>
         </div>
     </footer>
 
@@ -119,6 +138,47 @@
         });
     </script>
     <script src="{% static 'js/theme.js' %}"></script>
+    <style>
+        .footer {
+            padding: 3rem 0;
+            background: rgba(14, 24, 38, 0.95);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.82);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            align-items: start;
+        }
+        .footer-links h4,
+        .footer-contact h4 {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: #ffffff;
+        }
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.7rem;
+        }
+        .footer-links a,
+        .footer-contact a {
+            color: rgba(255,255,255,0.88);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .footer-links a:hover,
+        .footer-contact a:hover {
+            color: var(--gold);
+        }
+        .footer-contact p {
+            margin: 0.6rem 0;
+            line-height: 1.65;
+        }
+    </style>
     {% block extra_scripts %}{% endblock %}
 </body>
 

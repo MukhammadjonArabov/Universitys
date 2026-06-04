@@ -75,6 +75,8 @@ msgstr "Additional Resources"
 msgid ""
 "O‘zbekistondagi universitetlar va ta'lim tizimi haqida foydali havolalar."
 msgstr ""
+msgid "Bo'limlar"
+msgstr "Sections"
 "Useful links about universities and the education system in Uzbekistan."
 
 msgid "Manbalar mavjud emas"
@@ -343,3 +345,6 @@ msgstr ""
 
 msgid "Geo-joylashuvi berilgan universitetlarni interaktiv xaritada ko'ring."
 msgstr "View universities with location data on an interactive map."
+
+msgid "Xarita"
+msgstr "Map"
