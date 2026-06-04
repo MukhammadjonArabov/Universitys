@@ -38,17 +38,18 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
 
     def populate_user(self, request, sociallogin, data):
         user = super().populate_user(request, sociallogin, data)
-        # Try to set username from email local-part
+        # Try to set a unique username from email local-part
         email = data.get('email') or sociallogin.account.extra_data.get('email')
         if email:
             local = email.split('@')[0]
-            user.username = local
+            user.username = _generate_unique_username(local)
         return user
 
     def save_user(self, request, sociallogin, form=None):
         user = sociallogin.user
-        if not user.username:
-            # Fallback: generate a unique username from email local-part or account uid
+        needs_username = not user.username or User.objects.filter(username=user.username).exclude(pk=user.pk).exists()
+        if needs_username:
+            # Generate a unique username from email local-part or account uid
             email = getattr(user, 'email', None) or sociallogin.account.extra_data.get('email')
             base = (email.split('@')[0] if email and '@' in email else sociallogin.account.uid)
             user.username = _generate_unique_username(base)

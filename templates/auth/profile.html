@@ -5,37 +5,112 @@
 
 {% block content %}
 <section class="container section">
-    <div class="card login-card">
-        <div class="login-header">
-            <h2>{% trans "Profil" %}</h2>
-            <p class="muted">{% trans "Sizning hisobingiz va test natijalaringiz" %}</p>
+    <div class="profile-grid">
+        <div class="card login-card profile-summary compact-profile">
+            <div class="login-body profile-summary-body">
+                <p class="profile-field"><strong>{{ request.user.get_full_name|default:request.user.username }}</strong></p>
+                <p class="profile-field muted">{{ request.user.email }}</p>
+            </div>
         </div>
-        <div class="login-body">
-            <div style="display:flex; gap:2rem; align-items:flex-start;">
-                <div style="flex:1;">
-                    <p><strong>{% trans "Foydalanuvchi" %}:</strong> {{ request.user.get_full_name|default:request.user.username }}</p>
-                    <p><strong>{% trans "Email" %}:</strong> {{ request.user.email }}</p>
-                    {% if profile and profile.phone_number %}
-                    <p><strong>{% trans "Telefon" %}:</strong> {{ profile.phone_number }}</p>
-                    {% endif %}
+
+        <div class="card login-card profile-tests">
+            <div class="login-header">
+                <h2>{% trans "Test tarixi" %}</h2>
+                <p class="muted">{% trans "O‘tgan testlaringizni bosing va to‘liq natijalarni ko‘ring." %}</p>
+            </div>
+            <div class="login-body">
+                {% if test_results %}
+                <div class="history-list">
+                    {% for r in test_results %}
+                    <article class="history-item card glass">
+                        <div class="history-meta">
+                            <span class="history-date">{{ r.created_date|date:"Y-m-d H:i" }}</span>
+                            <span class="history-status">{% trans "Yakunlandi" %}</span>
+                        </div>
+                        <p class="history-summary">{{ r.recommendation|truncatechars:140 }}</p>
+                        <div class="history-actions">
+                            <a href="{% url 'university:test_result' r.id %}" class="btn btn-sm btn-primary">{% trans "Natijani ko'rish" %}</a>
+                        </div>
+                    </article>
+                    {% endfor %}
                 </div>
-                <div style="flex:1;">
-                    <h4>{% trans "Test natijalari" %}</h4>
-                    {% if test_results %}
-                        <ul>
-                            {% for r in test_results %}
-                                <li>
-                                    <a href="{% url 'university:test_result' r.id %}">{{ r.created_date|date:"Y-m-d H:i" }}</a>
-                                    - {{ r.recommendation|truncatechars:80 }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p class="muted">{% trans "Hech qanday natija topilmadi." %}</p>
-                    {% endif %}
-                </div>
+                {% else %}
+                <p class="muted">{% trans "Siz hali test topshirmagansiz. Testni boshlash uchun quyidagi tugmani bosing." %}</p>
+                <a href="{% url 'university:test_intro' %}" class="btn btn-primary mt-3">{% trans "Testni boshlash" %}</a>
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    .profile-grid {
+        display: grid;
+        gap: 1.5rem;
+    }
+    .profile-summary-body,
+    .login-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .compact-profile {
+        padding: 1.5rem 1.75rem;
+    }
+    .profile-field {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    .profile-field strong {
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+    .profile-info-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+    .history-list {
+        display: grid;
+        gap: 1rem;
+    }
+    .history-item {
+        padding: 1rem 1.25rem;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.03);
+    }
+    .history-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+    }
+    .history-date {
+        font-weight: 600;
+    }
+    .history-status {
+        color: #22c55e;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.8rem;
+    }
+    .history-summary {
+        margin: 0 0 1rem;
+        color: rgba(255,255,255,0.8);
+        line-height: 1.6;
+    }
+    .history-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+    @media (max-width: 900px) {
+        .profile-info-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 {% endblock %}

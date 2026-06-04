@@ -70,10 +70,11 @@ class UniversityAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date', 'updated_date')
     fieldsets = (
         ('Basic Information', {
-            'fields': ('region', 'phone_number', 'email', 'website', 'image', 'latitude', 'longitude')
-        }),
-        ('Counts', {
-            'fields': ('faculties_count', 'directions_count', 'students_count', 'professors_count')
+            'classes': ('wide',),
+            'fields': (
+                'region', 'phone_number', 'email', 'website', 'image', 'latitude', 'longitude',
+                'faculties_count', 'directions_count', 'students_count', 'professors_count'
+            )
         }),
         ('O\'zbekcha (Uzbek)', {
             'fields': ('name_uz', 'postal_address_uz')

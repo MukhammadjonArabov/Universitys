@@ -59,6 +59,7 @@ def home_view(request):
         )
 
     universities_count = University.objects.count()
+    regions_count = Region.objects.count()
 
     return render(
         request,
@@ -67,6 +68,7 @@ def home_view(request):
             "map_data": map_data,
             "universities_geo_count": len(map_data),
             "universities_count": universities_count,
+            "regions_count": regions_count,
         },
     )
 
